@@ -57,19 +57,13 @@ stack ghc, stack ghci, stack runghc, or stack exec
 After that, the you'll be able to run `ghc`, `runghc` and `ghci` anywhere by typing
 
 ```
-stack exec <command>
-```
-
-and if you need to supply arguments to `ghc`, `runghc` or `ghci`, type `--` before your argument list:
-
-```
-stack exec <command> -- ARGS
+stack exec -- <command>
 ```
 
 For example:
 
 ```
-suppi@ubuntu:~$ stack exec ghc -- --version
+suppi@ubuntu:~$ stack exec -- ghc --version
 Run from outside a project, using implicit global project config
 Using resolver: lts-6.14 from implicit global project's config file: 
 /home/suppi/.stack/global-project/stack.yaml
@@ -81,7 +75,7 @@ The Glorious Glasgow Haskell Compilation System, version 7.10.3
 Let's try opening `ghci` and write something
 
 ```
-suppi@ubuntu:~$ stack exec ghci
+suppi@ubuntu:~$ stack exec -- ghci
 Run from outside a project, using implicit global project config
 Using resolver: lts-6.14 from implicit global project's config file: 
 /home/suppi/.stack/global-project/stack.yaml
@@ -112,7 +106,7 @@ module Main where
 main :: IO ()
 main = putStrLn "Hello from Haskell!"
 ^C
-suppi@ubuntu:~$ stack exec ghc Main.hs -- -o HiHaskell
+suppi@ubuntu:~$ stack exec -- ghc Main.hs -o HiHaskell
 Run from outside a project, using implicit global project config
 Using resolver: lts-6.14 from implicit global project's config file: 
 /home/suppi/.stack/global-project/stack.yaml
@@ -125,7 +119,7 @@ Hello from Haskell!
 We can also just run the file without compiling it using `runghc`:
 
 ```
-suppi@ubuntu:~$ stack exec runghc Main.hs
+suppi@ubuntu:~$ stack exec -- runghc Main.hs
 Run from outside a project, using implicit global project config
 Using resolver: lts-6.14 from implicit global project's config file: 
 /home/suppi/.stack/global-project/stack.yaml
@@ -141,7 +135,7 @@ Stack will use the packages it downloaded the first time.
 Here's a short example of running a `GET` request using http-client from GHCi:
 
 ```
-suppi@ubuntu:~$ stack exec ghci --package http-client
+suppi@ubuntu:~$ stack exec --package http-client -- ghci
 Run from outside a project, using implicit global project config
 Using resolver: lts-6.14 from implicit global project's config file: 
 /home/suppi/.stack/global-project/stack.yaml
