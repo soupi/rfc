@@ -1,0 +1,36 @@
+body {
+	height: 90vh;
+	width: 98wh;
+}
+
+.container {
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+.slide {
+	position: relative;
+	width: 80%;
+	margin: auto;
+	margin-top: 8vh;
+  overflow: hidden;
+}
+
+.container h1, .container h2,.container h3,.container h4,.container h5 {
+	text-align: center;
+}
+
+.container ul, .container p {
+	margin-left: 15%;
+	margin-right: 15%;
+}
+ul * {
+	margin-left: 0% !important;
+}
+
+.container img {
+	display: block;
+    margin: auto;
+}
+

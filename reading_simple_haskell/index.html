@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Reading Simple Haskell</title><link rel="stylesheet" type="text/css" href="css/style.css"><link rel="stylesheet" type="text/css" href="css/github.css"><link rel="stylesheet" type="text/css" href="highlight/styles/docco.css"></head><body><div class="container"><hr><h1>Reading simple</h1><p><a href="https://haskell-lang.org"><img src="https://www.haskell.org/static/img/haskell-logo.svg" alt="Haskell"></a></p><hr><h2>Haskell</h2><p>Haskell is a general purpose programming language, and can be used to build:</p><ul><li>Compilers (<a href="http://purescript.org">PureScript</a>, <a href="https://elm-lang.org">Elm</a>, <a href="https://github.com/agda/agda">Agda</a>, <a href="https://github.com/jameysharp/corrode/">Corrode</a> and many more)</li><li>Build systems (<a href="http://shakebuild.com/">Shake</a>)</li><li>Scripts (<a href="http://hackage.haskell.org/package/turtle">Turtle</a>)</li><li>Web servers and frontend applications (<a href="https://www.yesodweb.com/">Yesod</a>, <a href="https://haskell-servant.github.io/">Servant</a>, <a href="https://haskell-miso.org/">Miso</a>, <a href="https://github.com/reflex-frp/reflex-platform">Reflex</a> and many more)</li><li><a href="https://github.com/Gabriel439/post-rfc/blob/master/sotu.md">etc</a></li></ul><p>Haskell's main compiler is <a href="https://www.haskell.org/ghc/">GHC</a>.</p><hr><h1>Haskell Syntax</h1><hr><h2>Module Structure</h2><ul><li>compiler extensions</li><li>Comments - <code>--</code> for single line comment, <code>{- -}</code> for block comments</li><li>Module name</li><li>Imports</li><li><b>Definitions</b></li></ul><hr><h2>Definitions - Simple Values</h2><ul><li>Left-hand side is the name of the value</li><li><code>=</code> is used to declare the expression that is bound to the name on the left side (value definition)</li></ul><pre><code class="hs">five = 5</code></pre><hr><h2>Definitions - Functions</h2><ul><li>Add argument names after a name</li><li>Call functions without parenthesis</li><li>Function call is left associative</li><li>Function call takes precendence over operators</li></ul><pre><code class="hs">increment n = n + 1
+
+six = increment five
+
+seven = increment (increment five)
+
+incAndAdd x y = increment x + increment y</code></pre><hr><h2>Definitions - Operators</h2><ul><li><p>You can also define operators</p></li></ul><pre><code class="hs">x +- y = (x + x) - (y + y)</code></pre><hr><h2>Function Calls - Partial Application</h2><ul><li>We can supply only some of the arguments to a function</li><li>If we have a function that takes N arguments and we supply K arguments, we'll get a function that takes (N-K) arguments</li></ul><pre><code class="hs">sum3 x y z = x + y + z
+
+newIncrement = sum3 0 1
+
+three = newIncrement 2</code></pre><hr><h2>let/where</h2><ul><li>We can name part of the computation using <code>let</code> or <code>where</code></li><li><code>let [&lt;definition&gt;] in &lt;expression&gt;</code> is an expression and can be used anywhere</li>
+<li><code>where</code> is special syntax</li></ul><pre><code class="hs">sumOf3 x y z =
+  let temp = x + y
+  in temp + z
+
+-- or:
+sumOf3 x y z = temp + z
+  where temp = x + y</code></pre><hr><h2>Defining Types</h2><ul><li>Concrete types starts with an uppercase letter</li><li>Use <code>type</code> to give a new alias to an existing type. They can be use interchangingly.</li></ul><pre><code class="hs">type Nickname = String</code></pre><hr><h2>Type Signatures</h2><p>We can give values a type signature using <code>::</code></p><pre><code class="hs">myNickname :: Nickname
+myNickname = &quot;suppi&quot;</code></pre><hr><h2>Defining Types - Sum Types</h2><ul><li>We can define our own types using the keyword <code>data</code></li><li>Sum types are alternative possible values of a given type</li><li>Similar to enums in other languages</li><li>We use <code>|</code> as saying &quot;alternatively&quot;</li><li>To calculate how many possible values our new type has, we we sum all the possibilities, therefore &quot;sum type&quot;</li><li>Options must start with an uppercase letter</li></ul><pre><code class="hs">data KnownColor -- the new type's name
+  = Red         -- One possible value
+  | Blue
+  | Green
+
+redColor :: KnownColor
+redColor = Red
+</code></pre><hr><h2>Defining Types - Product Types</h2><ul><li>We can also use <code>data</code> to define compound data of existing types</li><li>Similar to structs in other languages</li><li>To calculate how many possible values our new type has, we multiply the possible values of each type, therefore &quot;product type&quot;</li></ul><pre><code class="hs">data RGB
+  = MkRGB Int Int Int
+{-
+      ^    ^   ^   ^
+      |    |   |   | 
+      |    |   |   +- This is the green component
+      |    |   |
+      |    |   +----- This is the blue component
+      |    |
+      |    +--------- This is the red component
+      |
+      +------------- This is the value constructor
+-}
+
+magenta :: RGB
+magenta = MkRGB 255 0 255</code></pre><hr><h2>Defining types - Sum and Product Types</h2><ul><li>We can mix sum and product types in one type</li><li>This is often called an algebraic data type, or ADT</li><li>Value constructors create a value of the type</li><li>If they represent a product, value constructors can be used as regular functions to build values of the type</li><li>This also means they can be partially applied</li></ul><pre><code class="hs">data Color
+  = Red
+  | Blue
+  | Green
+  | RGB Int Int Int
+
+blue :: Color
+blue = Blue
+
+magenta :: Color
+magenta = RGB 255 0 255</code></pre><hr><h2>Defining types - Records</h2><ul><li>Records allow us to name our fields in a product type</li><li>There are more to records, but we won't talk too much about them here</li></ul><pre><code class="hs">data RGB = MkRGB
+  { rgbRed   :: Int
+  , rgbGreen :: Int
+  , rgbBlue  :: Int
+  }
+
+
+red :: RGB
+red = MkRGB
+  { rgbRed   = 255
+  , rgbGreen = 0
+  , rgbBlue  = 0
+  }</code></pre><hr><h2>The Type of Functions</h2><ul><li><p>We use <code>-&gt;</code> to denote the type of a function from one type to another type</p></li></ul><pre><code class="hs">increment :: Int -&gt; Int
+increment n = n + 1
+
+sum3 :: Int -&gt; Int -&gt; Int -&gt; Int
+sum3 x y z = x + y + z
+
+supplyGreenAndBlue :: Int -&gt; Int -&gt; Color
+supplyGreenAndBlue = RGB 100</code></pre><hr><h2>The Type of Functions</h2><ul><li><p><code>-&gt;</code> is right associative, previous function definitions will be parsed like this:</p></li></ul><pre><code class="hs">increment :: Int -&gt; Int
+increment n = n + 1
+
+sum3 :: (Int -&gt; (Int -&gt; (Int -&gt; Int)))
+sum3 x y z = x + y + z
+
+supplyGreenAndBlue :: (Int -&gt; (Int -&gt; Color))
+supplyGreenAndBlue = RGB 100
+</code></pre><ul><li><p>This is why partial function application works.</p></li></ul><hr><h2>Parametric Polymorphism in Type Signatures</h2><ul><li>Also known as &quot;Generics&quot; in other languages</li><li>We said names that starts with an <b>upper</b> case letter in types are <i>concrete types</i></li><li>Names that starts with a <b>lower</b> case letter in types are <i>type variables</i></li><li>If a variable represent some value of a given type, type variable represent some type</li><li>The a type variable represents one type across the type signature (and function definition)</li></ul><hr><h2>Parametric Polymorphism in Type Signatures</h2><pre><code class="hs">-- I only take concrete `Int` values
+identityInt :: Int -&gt; Int
+identityInt x = x
+
+five :: Int
+five = identityInt 5
+
+-- `a` marks any one type
+identity :: a -&gt; a
+identity x = x
+
+seven :: Int
+seven = identity 7
+
+true :: Bool
+true = identity True
+
+const :: a -&gt; b -&gt; a
+const x y = x</code></pre><hr><h2>Parametric Polymorphism in Type Signatures</h2><pre><code class="hs">-- will fail because nothing in the type signature suggests that
+-- `a` and `b` necessarily represent the same type
+identity1 :: a -&gt; b
+identity1 x = x
+
+-- will fail because we don't know if `a` is `Int`
+identity2 :: a -&gt; Int
+identity2 x = x
+
+-- will fail because we don't know if `a` is `Int`
+identity3 :: Int -&gt; a
+identity3 x = x</code></pre><hr><h2>One More Thing About Functions</h2><ul><li>In Haskell functions are first class values</li><li>They can be put in variables, passed and returned from functions, etc</li><li>This is a function that takes two functions and a value, apply the value to the second function and then apply the result to the first function</li><li>AKA function composition</li></ul><pre><code class="hs">compose :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+compose f g x = f (g x)
+
+f . g = compose f g</code></pre><hr><h2>One More Thing About Functions</h2><ul><li>Remember, <code>-&gt;</code> in type signatures is right associative</li><li>Doesn't it look like we take two functions and return a third from the type signature?</li></ul><pre><code class="hs">compose :: ((b -&gt; c) -&gt; ((a -&gt; b) -&gt; (a -&gt; c)))
+compose f g x = f (g x)</code></pre><hr><h2>Definitions - Global type inference</h2><p>As we saw earlier, Haskell is globally type inferred. We can remove almost all type signatures
+and Haskell will choose the most general type signature for us.</p><hr><h2>Recursive Types and Data Structures</h2><ul><li><p>A recursive data type is a data definition that refers to itself</p></li></ul><pre><code class="hs">data IntList
+  = EndOfIntList
+  | ValAndNext Int IntList
+
+list123 :: IntList
+list123 = ValAndNext 1 (ValAndNext 2 (ValAndNext 3 EndOfList))</code></pre><hr><h2>Defining Types - Type variables</h2><ul><li><p>We can use type variables when defining types</p></li></ul><pre><code class="hs">-- a value of type a or nothing
+data Maybe a
+  = Just a
+  | Nothing
+
+-- a value of type a or a value of type b
+data Either a b
+  = Left a
+  | Right b
+
+-- A linked list of `a`s
+
+-- Note: there's also a built in syntax in Haskell for linked lists
+
+data List a          -- [a]    -- special syntax for a linked list of a generic type `a`
+  = Nil              -- []     -- special syntax for the empty list
+  | Cons a (List a)  -- x : xs -- special operator for constructing a list</code></pre><hr><h2>Case Expression (Pattern Matching)</h2><ul><li>Allows us to write control flows on data types</li><li>Matches from top to bottom</li></ul><pre><code class="hs">case &lt;expr&gt; of
+  &lt;pattern1&gt; -&gt; &lt;result1&gt;
+  &lt;pattern2&gt; -&gt; &lt;result2&gt;
+  ...
+  &lt;patternN&gt; -&gt; &lt;resultN&gt;</code></pre><hr><h2>Case Expression (Pattern Matching)</h2><ul><li>Allows us to write control flows on data types</li><li>Matches from top to bottom</li></ul><pre><code class="hs">myIf :: Bool -&gt; a -&gt; a -&gt; a
+myIf test trueBranch falseBranch =
+  case test of
+    True  -&gt; trueBranch
+    False -&gt; falseBranch</code></pre><hr><h2>Case Expression (Pattern Matching)</h2><ul><li>Allows us to write control flows on data types</li><li>Matches from top to bottom</li></ul><pre><code class="hs">factorial :: Int -&gt; Int
+factorial num =
+  case num of
+    0 -&gt; 1
+    n -&gt; n * factorial (n - 1)</code></pre><hr><h2>Case Expression (Pattern Matching)</h2><ul><li>Allows us to write control flows on data types</li><li>Matches from top to bottom</li><li>the pattern <code>_</code> means match all</li></ul><pre><code class="hs">colorName :: Color -&gt; String
+colorName color =
+  case color of
+    Red -&gt; &quot;red&quot;
+    Green -&gt; &quot;green&quot;
+    Blue -&gt; &quot;blue&quot;
+    RGB 255 0 255 -&gt; &quot;magenta&quot;
+    RGB _ 255 _ -&gt; &quot;well it has a lot of green in it&quot;
+    _ -&gt; &quot;i don't know this color&quot;</code></pre><hr><h2>Do notation</h2><ul><li>Do notation is special syntax aimed to help us write IO actions in a way that looks imperative</li><li><code>&lt;-</code> is used to bind the result of an IO action to a variable when using do notation</li><li><code>let</code> is used to bind an expression to a name</li></ul><pre><code class="hs">main :: IO ()
+main = do
+  putStrLn &quot;Hello!&quot;
+  putStrLn &quot;What is your name?&quot;
+  result &lt;- getLine
+  putStrLn (&quot;Nice to meet you, &quot; ++ result)
+  putStrLn &quot;Here is the result of 1+1: &quot;
+  let calculation = factorial 100 -- note that when using do notation we don't need to use `in`
+  putStrLn (show (factorial 100))
+  putStrLn &quot;Bye!&quot;
+</code></pre><hr><h2>Example</h2><ul><li><a href="https://gist.github.com/soupi/c7c94a45d006bc70f3b896f327ea47a3">A simple JSON EDSL</a></li><li><a href="https://repl.it/repls/IntrepidVacantGraywolf">Try it in repl.it</a> to see the result</li></ul><hr><h2>Want to learn more?</h2>
+<ul>
+  <li><p><a href="http://haskellbook.com">Haskell Programming: From First Principles</a></p></li>
+  <li><p><a href="https://haskell-lang.org/get-started">Install a Haskell compiler and environment</a></p></li>
+</ul>
+<hr></div><script src="js/jquery-1.11.0.min.js"></script><script src="highlight/highlight.pack.js"></script><script src="js/present.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
