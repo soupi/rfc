@@ -1,13 +1,10 @@
 ---
 
-# Primer to: Reading
+# Reading Simple
 
 [![Haskell](https://www.haskell.org/static/img/haskell-logo.svg)](https://haskell-lang.org)
 
-#### (or, a taste of Haskell)
-
 ---
-
 
 ## Haskell
 
@@ -23,15 +20,12 @@ Haskell's main compiler is [GHC](https://www.haskell.org/ghc/).
 
 ---
 
-# Haskell Syntax
-
----
-
 ## Module Structure
 
-- compiler extensions
+- Compiler extensions - we won't talk about those in this talk
 - Comments - `--` for single line comment, `{- -}` for block comments
 - Module name
+- Exports
 - Imports
 - **Definitions**
 
@@ -80,13 +74,18 @@ x +- y = (x + x) - (y + y)
 ## Function Calls - Partial Application
 
 - We can supply only some of the arguments to a function
-- If we have a function that takes N arguments and we supply K arguments, we'll get a function that takes (N-K) arguments
+- If we have a function that takes N arguments and we supply K arguments, we'll get a function that takes (N - K) arguments
+- `newIncrement` supplies 
 
 ```hs
+-- takes 3 arguments, so in this case N = 3
 sum3 x y z = x + y + z
 
+-- only supplies 2 arguments (K = 2), 0 and 1.
+-- so newIncrement is a function that takes (N - K = 1) arguments
 newIncrement = sum3 0 1
 
+-- three is the value 3
 three = newIncrement 2
 ```
 
@@ -96,7 +95,7 @@ three = newIncrement 2
 
 - We can name part of the computation using `let` or `where`
 - `let [<definition>] in <expression>` is an expression and can be used anywhere
--`where` is special syntax
+- `where` is special syntax
 
 ```hs
 sumOf3 x y z =
@@ -138,7 +137,7 @@ myNickname = "suppi"
 - Sum types are alternative possible values of a given type
 - Similar to enums in other languages
 - We use `|` as saying "alternatively"
-- To calculate how many possible values our new type has, we we sum all the possibilities, therefore "sum type"
+- To calculate how many possible values our new type has, we sum all the possibilities, therefore "sum type"
 - Options must start with an uppercase letter
 
 ```hs
@@ -149,7 +148,6 @@ data KnownColor -- the new type's name
 
 redColor :: KnownColor
 redColor = Red
-
 ```
 
 ---
@@ -257,7 +255,6 @@ sum3 x y z = x + y + z
 
 supplyGreenAndBlue :: (Int -> (Int -> Color))
 supplyGreenAndBlue = RGB 100
-
 ```
 
 - This is why partial function application works.
@@ -357,14 +354,45 @@ and Haskell will choose the most general type signature for us.
 ## Recursive Types and Data Structures
 
 - A recursive data type is a data definition that refers to itself
+- This let's us define even more interesting data structures such as linked lists and trees
 
 ```hs
 data IntList
   = EndOfIntList
   | ValAndNext Int IntList
 
+-- the list [1,2,3]
 list123 :: IntList
 list123 = ValAndNext 1 (ValAndNext 2 (ValAndNext 3 EndOfList))
+```
+
+---
+
+## Recursive Types and Data Structures
+
+- A recursive data type is a data definition that refers to itself
+- This let's us define even more interesting data structures such as linked lists and trees
+
+```hs
+data IntTree
+  = Leaf
+  | Node
+      IntTree      -- Left subtree
+      Int          -- Node value
+      IntTree      -- Right subtree
+
+--     2
+--    / \
+--   1   3
+--  /
+-- 1
+tree1123 :: IntTree
+tree =
+  Node
+    (Node (Node Leaf 1 Leaf) 1 Leaf)
+    2
+    (Node Leaf 3 Leaf)
+
 ```
 
 ---
@@ -372,6 +400,8 @@ list123 = ValAndNext 1 (ValAndNext 2 (ValAndNext 3 EndOfList))
 ## Defining Types - Type variables
 
 - We can use type variables when defining types
+- We can define generic structures
+- This way we don't have to restrict our structure to a specific type such as `Int` or `Bool` like in the previous slide
 
 ```hs
 -- a value of type a or nothing
@@ -457,6 +487,7 @@ colorName color =
     RGB _ 255 _ -> "well it has a lot of green in it"
     _ -> "i don't know this color"
 ```
+
 ---
 
 ## Do notation
@@ -490,6 +521,7 @@ main = do
 
 ## Want to learn more?
 
-- [Get started with Haskell](https://haskell-lang.org)!
+- [Haskell Programming: From First Principles](http://haskellbook.com)
+- [Install a Haskell compiler and environment](https://haskell-lang.org/get-started)
 
 ---
