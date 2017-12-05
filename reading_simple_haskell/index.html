@@ -1,30 +1,32 @@
 <!DOCTYPE HTML>
-<html><head><meta charset="utf-8"><title>Reading Simple Haskell</title><link rel="stylesheet" type="text/css" href="css/style.css"><link rel="stylesheet" type="text/css" href="css/github.css"><link rel="stylesheet" type="text/css" href="highlight/styles/docco.css"></head><body><div class="container"><hr><h1>Reading simple</h1><p><a href="https://haskell-lang.org"><img src="https://www.haskell.org/static/img/haskell-logo.svg" alt="Haskell"></a></p><hr><h2>Haskell</h2><p>Haskell is a general purpose programming language, and can be used to build:</p><ul><li>Compilers (<a href="http://purescript.org">PureScript</a>, <a href="https://elm-lang.org">Elm</a>, <a href="https://github.com/agda/agda">Agda</a>, <a href="https://github.com/jameysharp/corrode/">Corrode</a> and many more)</li><li>Build systems (<a href="http://shakebuild.com/">Shake</a>)</li><li>Scripts (<a href="http://hackage.haskell.org/package/turtle">Turtle</a>)</li><li>Web servers and frontend applications (<a href="https://www.yesodweb.com/">Yesod</a>, <a href="https://haskell-servant.github.io/">Servant</a>, <a href="https://haskell-miso.org/">Miso</a>, <a href="https://github.com/reflex-frp/reflex-platform">Reflex</a> and many more)</li><li><a href="https://github.com/Gabriel439/post-rfc/blob/master/sotu.md">etc</a></li></ul><p>Haskell's main compiler is <a href="https://www.haskell.org/ghc/">GHC</a>.</p><hr><h1>Haskell Syntax</h1><hr><h2>Module Structure</h2><ul><li>compiler extensions</li><li>Comments - <code>--</code> for single line comment, <code>{- -}</code> for block comments</li><li>Module name</li><li>Imports</li><li><b>Definitions</b></li></ul><hr><h2>Definitions - Simple Values</h2><ul><li>Left-hand side is the name of the value</li><li><code>=</code> is used to declare the expression that is bound to the name on the left side (value definition)</li></ul><pre><code class="hs">five = 5</code></pre><hr><h2>Definitions - Functions</h2><ul><li>Add argument names after a name</li><li>Call functions without parenthesis</li><li>Function call is left associative</li><li>Function call takes precendence over operators</li></ul><pre><code class="hs">increment n = n + 1
+<html><head><meta charset="utf-8"><title>Reading Simple Haskell</title><link rel="stylesheet" type="text/css" href="css/style.css"><link rel="stylesheet" type="text/css" href="css/github.css"><link rel="stylesheet" type="text/css" href="highlight/styles/docco.css"></head><body><div class="container"><hr><h1>Reading Simple</h1><p><a href="https://haskell-lang.org"><img src="https://www.haskell.org/static/img/haskell-logo.svg" alt="Haskell"></a></p><hr><h2>Haskell</h2><p>Haskell is a general purpose programming language, and can be used to build:</p><ul><li>Compilers (<a href="http://purescript.org">PureScript</a>, <a href="https://elm-lang.org">Elm</a>, <a href="https://github.com/agda/agda">Agda</a>, <a href="https://github.com/jameysharp/corrode/">Corrode</a> and many more)</li><li>Build systems (<a href="http://shakebuild.com/">Shake</a>)</li><li>Scripts (<a href="http://hackage.haskell.org/package/turtle">Turtle</a>)</li><li>Web servers and frontend applications (<a href="https://www.yesodweb.com/">Yesod</a>, <a href="https://haskell-servant.github.io/">Servant</a>, <a href="https://haskell-miso.org/">Miso</a>, <a href="https://github.com/reflex-frp/reflex-platform">Reflex</a> and many more)</li><li><a href="https://github.com/Gabriel439/post-rfc/blob/master/sotu.md">etc</a></li></ul><p>Haskell's main compiler is <a href="https://www.haskell.org/ghc/">GHC</a>.</p><hr><h2>Module Structure</h2><ul><li>Compiler extensions - we won't talk about those in this talk</li><li>Comments - <code>--</code> for single line comment, <code>{- -}</code> for block comments</li><li>Module name</li><li>Exports</li><li>Imports</li><li><b>Definitions</b></li></ul><hr><h2>Definitions - Simple Values</h2><ul><li>Left-hand side is the name of the value</li><li><code>=</code> is used to declare the expression that is bound to the name on the left side (value definition)</li></ul><pre><code class="hs">five = 5</code></pre><hr><h2>Definitions - Functions</h2><ul><li>Add argument names after a name</li><li>Call functions without parenthesis</li><li>Function call is left associative</li><li>Function call takes precendence over operators</li></ul><pre><code class="hs">increment n = n + 1
 
 six = increment five
 
 seven = increment (increment five)
 
-incAndAdd x y = increment x + increment y</code></pre><hr><h2>Definitions - Operators</h2><ul><li><p>You can also define operators</p></li></ul><pre><code class="hs">x +- y = (x + x) - (y + y)</code></pre><hr><h2>Function Calls - Partial Application</h2><ul><li>We can supply only some of the arguments to a function</li><li>If we have a function that takes N arguments and we supply K arguments, we'll get a function that takes (N-K) arguments</li></ul><pre><code class="hs">sum3 x y z = x + y + z
+incAndAdd x y = increment x + increment y</code></pre><hr><h2>Definitions - Operators</h2><ul><li><p>You can also define operators</p></li></ul><pre><code class="hs">x +- y = (x + x) - (y + y)</code></pre><hr><h2>Function Calls - Partial Application</h2><ul><li>We can supply only some of the arguments to a function</li><li>If we have a function that takes N arguments and we supply K arguments, we'll get a function that takes (N - K) arguments</li><li><code>newIncrement</code> supplies</li></ul><pre><code class="hs">-- takes 3 arguments, so in this case N = 3
+sum3 x y z = x + y + z
 
+-- only supplies 2 arguments (K = 2), 0 and 1.
+-- so newIncrement is a function that takes (N - K = 1) arguments
 newIncrement = sum3 0 1
 
-three = newIncrement 2</code></pre><hr><h2>let/where</h2><ul><li>We can name part of the computation using <code>let</code> or <code>where</code></li><li><code>let [&lt;definition&gt;] in &lt;expression&gt;</code> is an expression and can be used anywhere</li>
-<li><code>where</code> is special syntax</li></ul><pre><code class="hs">sumOf3 x y z =
+-- three is the value 3
+three = newIncrement 2</code></pre><hr><h2>let/where</h2><ul><li>We can name part of the computation using <code>let</code> or <code>where</code></li><li><code>let [&lt;definition&gt;] in &lt;expression&gt;</code> is an expression and can be used anywhere</li><li><code>where</code> is special syntax</li></ul><pre><code class="hs">sumOf3 x y z =
   let temp = x + y
   in temp + z
 
 -- or:
 sumOf3 x y z = temp + z
   where temp = x + y</code></pre><hr><h2>Defining Types</h2><ul><li>Concrete types starts with an uppercase letter</li><li>Use <code>type</code> to give a new alias to an existing type. They can be use interchangingly.</li></ul><pre><code class="hs">type Nickname = String</code></pre><hr><h2>Type Signatures</h2><p>We can give values a type signature using <code>::</code></p><pre><code class="hs">myNickname :: Nickname
-myNickname = &quot;suppi&quot;</code></pre><hr><h2>Defining Types - Sum Types</h2><ul><li>We can define our own types using the keyword <code>data</code></li><li>Sum types are alternative possible values of a given type</li><li>Similar to enums in other languages</li><li>We use <code>|</code> as saying &quot;alternatively&quot;</li><li>To calculate how many possible values our new type has, we we sum all the possibilities, therefore &quot;sum type&quot;</li><li>Options must start with an uppercase letter</li></ul><pre><code class="hs">data KnownColor -- the new type's name
+myNickname = &quot;suppi&quot;</code></pre><hr><h2>Defining Types - Sum Types</h2><ul><li>We can define our own types using the keyword <code>data</code></li><li>Sum types are alternative possible values of a given type</li><li>Similar to enums in other languages</li><li>We use <code>|</code> as saying &quot;alternatively&quot;</li><li>To calculate how many possible values our new type has, we sum all the possibilities, therefore &quot;sum type&quot;</li><li>Options must start with an uppercase letter</li></ul><pre><code class="hs">data KnownColor -- the new type's name
   = Red         -- One possible value
   | Blue
   | Green
 
 redColor :: KnownColor
-redColor = Red
-</code></pre><hr><h2>Defining Types - Product Types</h2><ul><li>We can also use <code>data</code> to define compound data of existing types</li><li>Similar to structs in other languages</li><li>To calculate how many possible values our new type has, we multiply the possible values of each type, therefore &quot;product type&quot;</li></ul><pre><code class="hs">data RGB
+redColor = Red</code></pre><hr><h2>Defining Types - Product Types</h2><ul><li>We can also use <code>data</code> to define compound data of existing types</li><li>Similar to structs in other languages</li><li>To calculate how many possible values our new type has, we multiply the possible values of each type, therefore &quot;product type&quot;</li></ul><pre><code class="hs">data RGB
   = MkRGB Int Int Int
 {-
       ^    ^   ^   ^
@@ -75,8 +77,7 @@ sum3 :: (Int -&gt; (Int -&gt; (Int -&gt; Int)))
 sum3 x y z = x + y + z
 
 supplyGreenAndBlue :: (Int -&gt; (Int -&gt; Color))
-supplyGreenAndBlue = RGB 100
-</code></pre><ul><li><p>This is why partial function application works.</p></li></ul><hr><h2>Parametric Polymorphism in Type Signatures</h2><ul><li>Also known as &quot;Generics&quot; in other languages</li><li>We said names that starts with an <b>upper</b> case letter in types are <i>concrete types</i></li><li>Names that starts with a <b>lower</b> case letter in types are <i>type variables</i></li><li>If a variable represent some value of a given type, type variable represent some type</li><li>The a type variable represents one type across the type signature (and function definition)</li></ul><hr><h2>Parametric Polymorphism in Type Signatures</h2><pre><code class="hs">-- I only take concrete `Int` values
+supplyGreenAndBlue = RGB 100</code></pre><ul><li><p>This is why partial function application works.</p></li></ul><hr><h2>Parametric Polymorphism in Type Signatures</h2><ul><li>Also known as &quot;Generics&quot; in other languages</li><li>We said names that starts with an <b>upper</b> case letter in types are <i>concrete types</i></li><li>Names that starts with a <b>lower</b> case letter in types are <i>type variables</i></li><li>If a variable represent some value of a given type, type variable represent some type</li><li>The a type variable represents one type across the type signature (and function definition)</li></ul><hr><h2>Parametric Polymorphism in Type Signatures</h2><pre><code class="hs">-- I only take concrete `Int` values
 identityInt :: Int -&gt; Int
 identityInt x = x
 
@@ -110,12 +111,31 @@ compose f g x = f (g x)
 
 f . g = compose f g</code></pre><hr><h2>One More Thing About Functions</h2><ul><li>Remember, <code>-&gt;</code> in type signatures is right associative</li><li>Doesn't it look like we take two functions and return a third from the type signature?</li></ul><pre><code class="hs">compose :: ((b -&gt; c) -&gt; ((a -&gt; b) -&gt; (a -&gt; c)))
 compose f g x = f (g x)</code></pre><hr><h2>Definitions - Global type inference</h2><p>As we saw earlier, Haskell is globally type inferred. We can remove almost all type signatures
-and Haskell will choose the most general type signature for us.</p><hr><h2>Recursive Types and Data Structures</h2><ul><li><p>A recursive data type is a data definition that refers to itself</p></li></ul><pre><code class="hs">data IntList
+and Haskell will choose the most general type signature for us.</p><hr><h2>Recursive Types and Data Structures</h2><ul><li>A recursive data type is a data definition that refers to itself</li><li>This let's us define even more interesting data structures such as linked lists and trees</li></ul><pre><code class="hs">data IntList
   = EndOfIntList
   | ValAndNext Int IntList
 
+-- the list [1,2,3]
 list123 :: IntList
-list123 = ValAndNext 1 (ValAndNext 2 (ValAndNext 3 EndOfList))</code></pre><hr><h2>Defining Types - Type variables</h2><ul><li><p>We can use type variables when defining types</p></li></ul><pre><code class="hs">-- a value of type a or nothing
+list123 = ValAndNext 1 (ValAndNext 2 (ValAndNext 3 EndOfList))</code></pre><hr><h2>Recursive Types and Data Structures</h2><ul><li>A recursive data type is a data definition that refers to itself</li><li>This let's us define even more interesting data structures such as linked lists and trees</li></ul><pre><code class="hs">data IntTree
+  = Leaf
+  | Node
+      IntTree      -- Left subtree
+      Int          -- Node value
+      IntTree      -- Right subtree
+
+--     2
+--    / \
+--   1   3
+--  /
+-- 1
+tree1123 :: IntTree
+tree =
+  Node
+    (Node (Node Leaf 1 Leaf) 1 Leaf)
+    2
+    (Node Leaf 3 Leaf)
+</code></pre><hr><h2>Defining Types - Type variables</h2><ul><li>We can use type variables when defining types</li><li>We can define generic structures</li><li>This way we don't have to restrict our structure to a specific type such as <code>Int</code> or <code>Bool</code> like in the previous slide</li></ul><pre><code class="hs">-- a value of type a or nothing
 data Maybe a
   = Just a
   | Nothing
@@ -161,9 +181,4 @@ main = do
   let calculation = factorial 100 -- note that when using do notation we don't need to use `in`
   putStrLn (show (factorial 100))
   putStrLn &quot;Bye!&quot;
-</code></pre><hr><h2>Example</h2><ul><li><a href="https://gist.github.com/soupi/c7c94a45d006bc70f3b896f327ea47a3">A simple JSON EDSL</a></li><li><a href="https://repl.it/repls/IntrepidVacantGraywolf">Try it in repl.it</a> to see the result</li></ul><hr><h2>Want to learn more?</h2>
-<ul>
-  <li><p><a href="http://haskellbook.com">Haskell Programming: From First Principles</a></p></li>
-  <li><p><a href="https://haskell-lang.org/get-started">Install a Haskell compiler and environment</a></p></li>
-</ul>
-<hr></div><script src="js/jquery-1.11.0.min.js"></script><script src="highlight/highlight.pack.js"></script><script src="js/present.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
+</code></pre><hr><h2>Example</h2><ul><li><a href="https://gist.github.com/soupi/c7c94a45d006bc70f3b896f327ea47a3">A simple JSON EDSL</a></li><li><a href="https://repl.it/repls/IntrepidVacantGraywolf">Try it in repl.it</a> to see the result</li></ul><hr><h2>Want to learn more?</h2><ul><li><a href="http://haskellbook.com">Haskell Programming: From First Principles</a></li><li><a href="https://haskell-lang.org/get-started">Install a Haskell compiler and environment</a></li></ul><hr></div><script src="js/jquery-1.11.0.min.js"></script><script src="highlight/highlight.pack.js"></script><script src="js/present.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
