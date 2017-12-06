@@ -5,16 +5,16 @@ Installing a Haskell toolchain becomes really easy when you use [Stack](https://
 ### Stack
 
 Stack is a Haskell build tool that is used to build Haskell software, manage package
-dependencies and even installing the Glorious Haskell Compiler (AKA GHC).
+dependencies and even install the Glorious Haskell Compiler (AKA GHC).
 
 To get started, go ahead and [download Stack](https://haskell-lang.org/get-started).
 
-After installing task you'll be able to execute it by running the `stack` command in
+After installing Stack you'll be able to execute it by running the `stack` command in
 your shell. Let's verify we indeed installed Stack correctly:
 
 ```
 suppi@ubuntu:~$ stack --version
-Version 1.1.2, Git revision cebe10e845fed4420b6224d97dcabf20477bbd4b (3646 commits) x86_64 
+Version 1.1.2, Git revision cebe10e845fed4420b6224d97dcabf20477bbd4b (3646 commits) x86_64
 hpack-0.14.0
 ```
 
@@ -31,21 +31,21 @@ Run from outside a project, using implicit global project config
 Using latest snapshot resolver: lts-6.14
 Writing implicit global project config file to: /home/suppi/.stack/global-project/stack.yaml
 Note: You can change the snapshot via the resolver field there.
-Downloaded lts-6.14 build plan.    
-Populated index cache.    
-Did not find .cabal file for snaplet-fay-0.3.3.13 with Git SHA of 
+Downloaded lts-6.14 build plan.
+Populated index cache.
+Did not find .cabal file for snaplet-fay-0.3.3.13 with Git SHA of
 423420d2e322320fec411d95c2cbd3a2f5c45991
 Right Nothing
-Did not find .cabal file for rest-snap-0.2.0.1 with Git SHA of 
+Did not find .cabal file for rest-snap-0.2.0.1 with Git SHA of
 5e7a306f05d1f04dba00d4b06da8f9e501a1e49e
 Right Nothing
-Did not find .cabal file for aeson-better-errors-0.9.0.1 with Git SHA of 
+Did not find .cabal file for aeson-better-errors-0.9.0.1 with Git SHA of
 0deb275b4df73c2a7a042d2e7226eb1b23de8846
 Right Nothing
-Did not find .cabal file for Spock-worker-0.3.0.0 with Git SHA of 
+Did not find .cabal file for Spock-worker-0.3.0.0 with Git SHA of
 dfdf645795042f1dab44aff29564c8ce82a52c8d
 Right Nothing
-Did not find .cabal file for Spock-digestive-0.2.0.0 with Git SHA of 
+Did not find .cabal file for Spock-digestive-0.2.0.0 with Git SHA of
 df169ccab1012421a82bfc5e65d42e406eb9ed63
 Right Nothing
 stack will use a locally installed GHC
@@ -65,19 +65,19 @@ For example:
 ```
 suppi@ubuntu:~$ stack exec -- ghc --version
 Run from outside a project, using implicit global project config
-Using resolver: lts-6.14 from implicit global project's config file: 
+Using resolver: lts-6.14 from implicit global project's config file:
 /home/suppi/.stack/global-project/stack.yaml
 The Glorious Glasgow Haskell Compilation System, version 7.10.3
 ```
 
 ### Playing with Haskell
 
-Let's try opening `ghci` and write something
+Let's try opening `ghci` and writing something
 
 ```
 suppi@ubuntu:~$ stack exec -- ghci
 Run from outside a project, using implicit global project config
-Using resolver: lts-6.14 from implicit global project's config file: 
+Using resolver: lts-6.14 from implicit global project's config file:
 /home/suppi/.stack/global-project/stack.yaml
 GHCi, version 7.10.3: http://www.haskell.org/ghc/  :? for help
 Prelude> putStrLn "Hello, Haskell!"
@@ -86,12 +86,12 @@ Prelude> :q
 Leaving GHCi.
 ```
 
-Ok! so Stack ran GHCi using the global project configuration.
+OK! So Stack ran GHCi using the global project configuration.
 Stack can manage different dependencies for different projects, so when you are
 not in a folder associated with a project, it will use the default configuration.
 
-Next, we write some haskell code: `putStrLn "Hello, Haskell!"` and GHCi immediately
-evaluate and execute it.
+Next, we write some Haskell code: `putStrLn "Hello, Haskell!"`. GHCi immediately
+evaluated and executed it.
 
 After that, we type the `:q` command to leave GHCi.
 
@@ -108,11 +108,11 @@ main = putStrLn "Hello from Haskell!"
 ^C
 suppi@ubuntu:~$ stack exec -- ghc Main.hs -o HiHaskell
 Run from outside a project, using implicit global project config
-Using resolver: lts-6.14 from implicit global project's config file: 
+Using resolver: lts-6.14 from implicit global project's config file:
 /home/suppi/.stack/global-project/stack.yaml
 [1 of 1] Compiling Main             ( Main.hs, Main.o )
 Linking HiHaskell ...
-suppi@ubuntu:~$ ./HiHaskell 
+suppi@ubuntu:~$ ./HiHaskell
 Hello from Haskell!
 ```
 
@@ -121,7 +121,7 @@ We can also just run the file without compiling it using `runghc`:
 ```
 suppi@ubuntu:~$ stack exec -- runghc Main.hs
 Run from outside a project, using implicit global project config
-Using resolver: lts-6.14 from implicit global project's config file: 
+Using resolver: lts-6.14 from implicit global project's config file:
 /home/suppi/.stack/global-project/stack.yaml
 Hello from Haskell!
 ```
@@ -137,7 +137,7 @@ Here's a short example of running a `GET` request using http-client from GHCi:
 ```
 suppi@ubuntu:~$ stack exec --package http-client -- ghci
 Run from outside a project, using implicit global project config
-Using resolver: lts-6.14 from implicit global project's config file: 
+Using resolver: lts-6.14 from implicit global project's config file:
 /home/suppi/.stack/global-project/stack.yaml
 base64-bytestring-1.0.0.1: download
 base64-bytestring-1.0.0.1: configure
@@ -247,12 +247,12 @@ Prelude Network.HTTP.Client> request <- parseRequest "http://httpbin.org/get"
 Prelude Network.HTTP.Client> response <- httpLbs request manager
 Prelude Network.HTTP.Client> putStrLn (read (show (responseBody response)))
 {
-  "args": {}, 
+  "args": {},
   "headers": {
-    "Accept-Encoding": "gzip", 
+    "Accept-Encoding": "gzip",
     "Host": "httpbin.org"
-  }, 
-  "origin": "5.102.241.151", 
+  },
+  "origin": "5.102.241.151",
   "url": "http://httpbin.org/get"
 }
 ```
@@ -278,4 +278,4 @@ What's next?
 6. [What I Wish I Knew When Learning Haskell](http://dev.stephendiehl.com/hask/) - A really long reference for a lot Haskell related concepts, features and libraries. Also links to other materials by subject
 
 
-Good luck learning Haskell! I hope you'll enjoy it!
+Good luck learning Haskell! I hope you enjoy it!
