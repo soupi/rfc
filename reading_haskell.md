@@ -34,7 +34,7 @@ Haskell's main compiler is [GHC](https://www.haskell.org/ghc/).
 ## Definitions - Simple Values
 
 - Left-hand side is the name of the value
-- `=` is used to declare the expression that is bound to the name on the left side (value definition)
+- `=` separates the name from the expression bound to the name (value definition)
 
 ```hs
 five = 5
@@ -44,8 +44,8 @@ five = 5
 
 ## Definitions - Functions
 
-- Add argument names after a name
-- Call functions without parenthesis
+- Add argument names after the function name
+- Call functions without parentheses
 - Function call is left associative
 - Function call takes precendence over operators
 
@@ -74,8 +74,8 @@ x +- y = (x + x) - (y + y)
 ## Function Calls - Partial Application
 
 - We can supply only some of the arguments to a function
-- If we have a function that takes N arguments and we supply K arguments, we'll get a function that takes (N - K) arguments
-- `newIncrement` supplies 
+- If we have a function that takes N arguments and we supply K arguments, we'll get a function that takes the remaining (N - K) arguments
+- `newIncrement` supplies two arguments, leaving one
 
 ```hs
 -- takes 3 arguments, so in this case N = 3
@@ -112,7 +112,7 @@ sumOf3 x y z = temp + z
 ## Defining Types
 
 - Concrete types starts with an uppercase letter
-- Use `type` to give a new alias to an existing type. They can be use interchangingly.
+- Use `type` to give a new alias to an existing type. They can be used interchangeably.
 
 ```hs
 type Nickname = String
@@ -134,11 +134,11 @@ myNickname = "suppi"
 ## Defining Types - Sum Types
 
 - We can define our own types using the keyword `data`
-- Sum types are alternative possible values of a given type
+- Sum types are sets of alternative possible values of a given type
 - Similar to enums in other languages
-- We use `|` as saying "alternatively"
-- To calculate how many possible values our new type has, we sum all the possibilities, therefore "sum type"
-- Options must start with an uppercase letter
+- We use `|` to say "alternatively"
+- To calculate how many possible values the new type has, we count the values, taking their sum. Therefore "sum type"
+- Each option must start with an uppercase letter
 
 ```hs
 data KnownColor -- the new type's name
@@ -154,23 +154,23 @@ redColor = Red
 
 ## Defining Types - Product Types
 
-- We can also use `data` to define compound data of existing types
+- We can also use `data` to define types containing multiple values from existing types
 - Similar to structs in other languages
-- To calculate how many possible values our new type has, we multiply the possible values of each type, therefore "product type"
+- To calculate how many possible values the new type has, we multiply the possible values for each contained type. Therefore "product type"
 
 ```hs
 data RGB
   = MkRGB Int Int Int
 {-
       ^    ^   ^   ^
-      |    |   |   | 
+      |    |   |   |
       |    |   |   +- This is the green component
       |    |   |
       |    |   +----- This is the blue component
       |    |
       |    +--------- This is the red component
       |
-      +------------- This is the value constructor
+      +------------- This is called the value constructor
 -}
 
 magenta :: RGB
@@ -183,8 +183,8 @@ magenta = MkRGB 255 0 255
 
 - We can mix sum and product types in one type
 - This is often called an algebraic data type, or ADT
-- Value constructors create a value of the type
-- If they represent a product, value constructors can be used as regular functions to build values of the type
+- Value constructors (like Red, Blue, Green, RGB) create a value of the type
+- If they represent a product (like RGB), value constructors can be used as regular functions to build values of the type
 - This also means they can be partially applied
 
 ```hs
@@ -205,8 +205,8 @@ magenta = RGB 255 0 255
 
 ## Defining types - Records
 
-- Records allow us to name our fields in a product type
-- There are more to records, but we won't talk too much about them here
+- Records allow us to name the fields in a product type
+- There is more to records, but we won't talk too much about it here
 
 ```hs
 data RGB = MkRGB
@@ -227,7 +227,7 @@ red = MkRGB
 
 ## The Type of Functions
 
-- We use `->` to denote the type of a function from one type to another type
+- We use `->` to denote the type of a function mapping one type to another type
 
 ```hs
 increment :: Int -> Int
@@ -244,7 +244,7 @@ supplyGreenAndBlue = RGB 100
 
 ## The Type of Functions
 
-- `->` is right associative, previous function definitions will be parsed like this:
+- `->` is right associative. The function definitions from earlier will be parsed like this:
 
 ```hs
 increment :: Int -> Int
@@ -263,11 +263,11 @@ supplyGreenAndBlue = RGB 100
 
 ## Parametric Polymorphism in Type Signatures
 
-- Also known as "Generics" in other languages
-- We said names that starts with an **upper** case letter in types are *concrete types*
-- Names that starts with a **lower** case letter in types are *type variables*
-- If a variable represent some value of a given type, type variable represent some type
-- The a type variable represents one type across the type signature (and function definition)
+- Also known as "generics" in other languages
+- Names that starts with an **upper** case letter in types are called *concrete types*
+- Names that starts with a **lower** case letter in types are called *type variables*
+- A variable represents some value of a given type; a type variable represents some type (to be set by outside code)
+- Within one value's type signature, a type variable represents one type
 
 ---
 
@@ -281,7 +281,7 @@ identityInt x = x
 five :: Int
 five = identityInt 5
 
--- `a` marks any one type
+-- the caller can replace `a` with any one type
 identity :: a -> a
 identity x = x
 
@@ -302,14 +302,17 @@ const x y = x
 ```hs
 -- will fail because nothing in the type signature suggests that
 -- `a` and `b` necessarily represent the same type
+-- (ex. the caller could set `a` to Int and `b` to String)
 identity1 :: a -> b
 identity1 x = x
 
 -- will fail because we don't know if `a` is `Int`
+-- (the caller could set `a` to String)
 identity2 :: a -> Int
 identity2 x = x
 
 -- will fail because we don't know if `a` is `Int`
+-- (the caller could again set `a` to String)
 identity3 :: Int -> a
 identity3 x = x
 ```
@@ -320,7 +323,7 @@ identity3 x = x
 
 - In Haskell functions are first class values
 - They can be put in variables, passed and returned from functions, etc
-- This is a function that takes two functions and a value, apply the value to the second function and then apply the result to the first function
+- This is a function that takes two functions and a value, applies the second function to the value and then applies the first function to the result
 - AKA function composition
 
 ```hs
@@ -354,7 +357,7 @@ and Haskell will choose the most general type signature for us.
 ## Recursive Types and Data Structures
 
 - A recursive data type is a data definition that refers to itself
-- This let's us define even more interesting data structures such as linked lists and trees
+- This lets us define even more interesting data structures such as linked lists and trees
 
 ```hs
 data IntList
@@ -371,7 +374,7 @@ list123 = ValAndNext 1 (ValAndNext 2 (ValAndNext 3 EndOfList))
 ## Recursive Types and Data Structures
 
 - A recursive data type is a data definition that refers to itself
-- This let's us define even more interesting data structures such as linked lists and trees
+- This lets us define even more interesting data structures such as linked lists and trees
 
 ```hs
 data IntTree
@@ -474,7 +477,7 @@ factorial num =
 
 - Allows us to write control flows on data types
 - Matches from top to bottom
-- the pattern `_` means match all
+- The pattern `_` means match anything
 
 ```hs
 colorName :: Color -> String
@@ -492,7 +495,7 @@ colorName color =
 
 ## Do notation
 
-- Do notation is special syntax aimed to help us write IO actions in a way that looks imperative
+- Do notation is special syntax for writing IO actions in a way that looks imperative
 - `<-` is used to bind the result of an IO action to a variable when using do notation
 - `let` is used to bind an expression to a name
 
@@ -524,4 +527,4 @@ main = do
 - [Haskell Programming: From First Principles](http://haskellbook.com)
 - [Install a Haskell compiler and environment](https://haskell-lang.org/get-started)
 
----
+-
