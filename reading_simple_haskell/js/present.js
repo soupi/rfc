@@ -27,8 +27,8 @@ $(function()
 		$('.currslide').removeClass('currslide');
 	}
 	
-	var btn1 = $('<input type="button" value="Prev" onclick="prev()" />');
-	var btn2 = $('<input type="button" value="Next" onclick="next()" />');
+	var btn1 = $('<input type="button" title="Or use left-arrow"  value="Prev" onclick="prev()" class="nav-button" />');
+	var btn2 = $('<input type="button" title="Or use right-arrow" value="Next" onclick="next()" class="nav-button" />');
     btn2.prependTo($("body"));
     btn1.prependTo($("body"));
 	
