@@ -163,9 +163,9 @@ data RGB
 {-
       ^    ^   ^   ^
       |    |   |   |
-      |    |   |   +- This is the green component
+      |    |   |   +- This is the blue component
       |    |   |
-      |    |   +----- This is the blue component
+      |    |   +----- This is the green component
       |    |
       |    +--------- This is the red component
       |
@@ -386,7 +386,7 @@ data IntTree
 --  /
 -- 1
 tree1123 :: IntTree
-tree =
+tree1123 =
   Node
     (Node (Node Leaf 1 Leaf) 1 Leaf)
     2
