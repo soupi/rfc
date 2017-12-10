@@ -31,9 +31,9 @@ redColor = Red</code></pre><hr><h2>Defining Types - Product Types</h2><ul><li>We
 {-
       ^    ^   ^   ^
       |    |   |   |
-      |    |   |   +- This is the green component
+      |    |   |   +- This is the blue component
       |    |   |
-      |    |   +----- This is the blue component
+      |    |   +----- This is the green component
       |    |
       |    +--------- This is the red component
       |
@@ -130,7 +130,7 @@ list123 = ValAndNext 1 (ValAndNext 2 (ValAndNext 3 EndOfList))</code></pre><hr><
 --  /
 -- 1
 tree1123 :: IntTree
-tree =
+tree1123 =
   Node
     (Node (Node Leaf 1 Leaf) 1 Leaf)
     2
