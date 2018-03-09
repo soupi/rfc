@@ -8,7 +8,7 @@
 
 # Writing Simple Haskell
 
-* Markdown format available [here](https://github.com/soupi/rfc/blob/master/writing_simple_haskell.md).
+* Markdown format available [here](https://github.com/soupi/rfc/blob/master/reading_haskell.md).
 
 ---
 
