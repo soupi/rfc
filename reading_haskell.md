@@ -6,6 +6,12 @@
 
 ---
 
+# Writing Simple Haskell
+
+* Markdown format available [here](https://github.com/soupi/rfc/blob/master/writing_simple_haskell.md).
+
+---
+
 ## Haskell
 
 Haskell is a general purpose programming language, and can be used to build:
