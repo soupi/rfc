@@ -6,7 +6,7 @@
 
 ---
 
-# Writing Simple Haskell
+# Reading Simple Haskell
 
 * Markdown format available [here](https://github.com/soupi/rfc/blob/master/reading_haskell.md).
 
