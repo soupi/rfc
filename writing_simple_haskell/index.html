@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>/home/suppi/Documents/blog/writing_simple_haskell.md</title><link rel="stylesheet" type="text/css" href="css/style.css"><link rel="stylesheet" type="text/css" href="css/github.css"><link rel="stylesheet" type="text/css" href="highlight/styles/docco.css"></head><body><div class="container"><hr><h1>Writing Simple</h1><p><a href="https://haskell-lang.org"><img src="https://www.haskell.org/static/img/haskell-logo.svg" alt="Haskell"></a></p><hr><h2>Writing Simple Haskell</h2><ul><li>This is a follow-up to <a href="https://soupi.github.io/rfc/reading_simple_haskell/">Reading Simple Haskell</a></li><li>Markdown format available <a href="https://github.com/soupi/rfc/blob/master/writing_simple_haskell.md">here</a>.</li></ul><hr><h3>What we're going to do</h3><ul><li>We're going to build a cli todo app.</li><li>To get the most out of this, follow along using <a href="https://haskell-lang.org/get-started">ghc</a> or <a href="https://repl.it/languages/haskell">repl.it</a>.</li></ul><hr><h3>TODO - Requirements</h3><p>We want to be able to:</p><ul><li>Add a new todo item</li><li>Diaplay all items</li><li>Mark an item as done</li></ul><p>But first, let's greet the user.</p><hr><h3>Hello</h3><pre><code class="hs">-- Hello.hs
+module Main where
+
+main :: IO ()
+main = putStrLn &quot;Hello user!&quot;</code></pre><pre><code class="sh">$ runghc Hello.hs
+Hello user!</code></pre><hr><h3>Hello</h3><pre><code class="hs">module Main where
+
+main :: IO ()
+main = putStrLn &quot;Hello user!&quot;</code></pre><ul><li><code>::</code> means &quot;type of&quot;</li><li><code>=</code> means equality (the two sides are interchangeable).</li><li>The type of <code>putStrLn</code> is <code>String -&gt; IO ()</code></li><li>The type of main is <code>IO ()</code>.</li></ul><hr><h3>Hello</h3><pre><code class="hs">module Main where
+
+main :: IO ()
+main = putStrLn &quot;Hello user!&quot;</code></pre><ul><li>The type <code>IO a</code> means <i>This is a description of a subroutine which when run, may perform IO actions and in the end will return a value of type a</i></li><li><code>main</code> is the name of the entry point of the program.</li><li>The Haskell runtime will look for <code>main</code> and will run it.</li></ul><hr><h3>What is your name?</h3><pre><code class="hs">module Main where
+
+main :: IO ()
+main = do
+  putStrLn &quot;Hello! What is your name?&quot;
+  name &lt;- getLine
+  let out = &quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;
+  putStrLn out</code></pre><pre><code class="sh">$ runghc Hello.hs
+&quot;Hello! What is your name?&quot;
+suppi
+&quot;Nice to meet you, suppi!</code></pre><hr><h3>What is your name?</h3><pre><code class="hs">module Main where
+
+main :: IO ()
+main = do
+  putStrLn &quot;Hello! What is your name?&quot;
+  name &lt;- getLine
+  let out = &quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;
+  putStrLn out</code></pre><ul><li>Haskell is <a href="https://en.wikibooks.org/wiki/Haskell/Indentation">indentation sensitive</a></li><li><i>Code which is part of some expression should be indented further in than the beginning of that expression</i></li></ul><hr><h3>What is your name?</h3><pre><code class="hs">module Main where
+
+main :: IO ()
+main = do
+  putStrLn &quot;Hello! What is your name?&quot;
+  name &lt;- getLine
+  let out = &quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;
+  putStrLn out</code></pre><ul><li><code>do</code> is a special syntax that lets us sequence IO actions</li><li>the type of <code>getLine</code> is <code>IO String</code></li><li><code>IO String</code> means <i>This is a description of a subroutine which when run, may perform IO operations and in the end will return a value of type <code>String</code></i></li><li><code>getLine</code> produces a <code>String</code> by taking a line from the standard input</li></ul><hr><h3>What is your name?</h3><pre><code class="hs">module Main where
+
+main :: IO ()
+main = do
+  putStrLn &quot;Hello! What is your name?&quot;
+  name &lt;- getLine
+  let out = &quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;
+  putStrLn out</code></pre><ul><li>The type of <code>getLine</code> is <code>IO String</code></li><li>The type of <code>name</code> is <code>String</code></li><li><code>&lt;-</code> is special syntax that can only appear in <code>do</code> notation.</li><li><code>&lt;-</code> means <i>run the subroutine and bind the value it produces to the name on the left side of <code>&lt;-</code></i></li><li><code>let &lt;name&gt; = &lt;expr&gt;</code> means that the <code>&lt;name&gt;</code> is interchangeable with <code>&lt;expr&gt;</code> for the rest of the <code>do</code> block</li><li>In <code>do</code> notation, <code>let</code> does not need the accompanying <code>in</code></li></ul><hr><h3>Common Error #1</h3><pre><code class="hs">module Main where
+
+main :: IO ()
+main = do
+  putStrLn &quot;Hello! What is your name?&quot;
+  let out = &quot;Nice to meet you, &quot; ++ getLine ++ &quot;!&quot;
+  putStrLn out</code></pre><pre><code class="hs">Hello.hs:6:37: error:
+    • Couldn't match expected type ‘[Char]’
+                  with actual type ‘IO String’
+    • In the first argument of ‘(++)’, namely ‘getLine’
+      In the second argument of ‘(++)’, namely ‘getLine ++ &quot;!&quot;’
+      In the expression: &quot;Nice to meet you, &quot; ++ getLine ++ &quot;!&quot;
+  |
+6 |   let out = &quot;Nice to meet you, &quot; ++ getLine ++ &quot;!&quot;
+  |                                     ^^^^^^^</code></pre><hr><h3>Common Error #1 - Using <code>IO String</code> in place of <code>String</code></h3><ul><li>Note: <code>String</code> is defined as <code>type String = [Char]</code></li><li>Haskell says it can't match the types <code>String</code> which was expected, with <code>IO String</code> which is the type of <code>getLine</code></li><li><code>IO a</code> and <code>a</code> are different types</li></ul><hr><h3>Common Error #2</h3><pre><code class="hs">module Main where
+
+main :: IO ()
+main = do
+  putStrLn &quot;Hello! What is your name?&quot;
+  name &lt;- getLine
+  putStrLn &quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;</code></pre><h3>Common Error #2</h3><pre><code class="hs">Hello.hs:7:3: error:
+    • Couldn't match expected type ‘[Char]’ with actual type ‘IO ()’
+    • In the first argument of ‘(++)’, namely
+        ‘putStrLn &quot;Nice to meet you, &quot;’
+      In a stmt of a 'do' block:
+        putStrLn &quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;
+      In the expression:
+        do putStrLn &quot;Hello! What is your name?&quot;
+           name &lt;- getLine
+           putStrLn &quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;
+  |
+7 |   putStrLn &quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</code></pre><hr><h3>Common Error #2 - Function application precedes operator application</h3><ul><li><p>Parenthesis are needed around the expression string</p></li></ul><pre><code class="hs">putStrLn (&quot;Nice to meet you, &quot; ++ name ++ &quot;!&quot;)</code></pre><hr><h2>TODO</h2><p>We want to be able to:</p><ul><li>Add a new todo item</li><li>Diaplay all items</li><li>Mark an item as done</li></ul><p>How should we</p><ul><li>Model the data?</li><li>Store the items?</li></ul><hr><h3>TODO</h3><ul><li><p>We can store the items in a linked list.</p></li></ul><pre><code class="hs">type Item = String
+type Items = [String]</code></pre><hr><h3>TODO</h3><ul><li><p>We can save the items in a linked list.</p></li></ul><pre><code class="hs">type Item = String
+type Items = [String]</code></pre><ul><li><p>How can we refer to an item?</p></li></ul><hr><h3>TODO</h3><ul><li><p>We can save the items in a linked list.</p></li></ul><pre><code class="hs">type Item = String
+type Items = [String]</code></pre><ul><li><p>How can we refer to an item?</p></li></ul><p>By it's index in the list</p><hr><h3>TODO</h3><ul><li><p>We can save the items in a linked list.</p></li></ul><pre><code class="hs">type Item = String
+type Items = [String]</code></pre><ul><li><p>How can we refer to an item?</p></li></ul><p>By it's index in the list</p><ul><li><p>Will will the operations we want to do look like?</p></li></ul><hr><h3>TODO - Items as a linked list</h3><ul><li>Add a new todo item -&gt; Add an item to the start of the list</li><li>Diaplay all items -&gt; reverse and print with indices</li><li>Mark an item as done -&gt; Remove an item by it's reverse-index</li><li>How can we represent these actions?</li></ul><hr><h3>TODO - Actions as functions</h3><pre><code class="hs">-- Returns a new list of Items with the new item in it
+addItem :: Item -&gt; Items -&gt; Items
+
+-- Returns a string representation of the items
+displayItems :: Items -&gt; String
+
+-- Returns a new list of items or an error message if the index is out of bounds
+removeItem :: Int -&gt; Items -&gt; Either String Items</code></pre><ul><li><p>We use <code>Either</code> to mark a possible failure</p></li></ul><hr><h3>TODO - addItem</h3><pre><code class="hs">-- Returns a new list of Items with the new item in it
+addItem :: Item -&gt; Items -&gt; Items
+addItem item items = item : items</code></pre><hr><h3>TODO - displayItems</h3><pre><code class="hs">-- Returns a string representation of the items
+displayItems :: Items -&gt; String
+displayItems items =
+  let
+    displayItem index item = show index ++ &quot; - &quot; ++ item
+    reversedList = reverse items
+    displayedItemsList = zipWith displayItem [1..] reversedList
+  in
+    unlines displayedItemsList</code></pre><ul><li>Use <a href="https://hoogle.haskell.org">hoogle</a> to search for <code>zipWith</code>, <code>reverse</code>, and <code>unlines</code> to find more about them</li><li>Haskell only evaluates values when it needs to (for example, when they need to be evaluated in order to print something to the user).</li><li>It let's us write functions that work on infinite lists such as <code>[1..]</code> and only evaluate what it needs to evaluate.</li><li>You can read more about evaluation in Haskell in <a href="http://blog.ezyang.com/2011/04/the-haskell-heap/">this guide</a></li></ul><hr><h3>TODO - User Interaction</h3><ul><li><p>Let's skip <code>removeItem</code> for now and add user interaction</p></li></ul><pre><code class="hs">-- Takes a list of items
+-- Interact with the user
+-- Return an updated list of items
+interactWithUser :: Items -&gt; IO Items</code></pre><hr><h3>TODO - User Interaction</h3><ul><li><p>Let's start by reading a line, treat it as an item, add it to the list, and display the new items</p></li></ul><pre><code class="hs">interactWithUser :: Items -&gt; IO Items
+interactWithUser items = do
+  putStrLn &quot;Enter an item to add to your todo list:&quot;
+  item &lt;- getLine
+  let newItems = addItem item items
+  putStrLn &quot;Item added.\n&quot;
+  putStrLn &quot;The List of items is:&quot;
+  putStrLn (displayItems newItems)
+  pure newItems</code></pre><ul><li>The last line of the <code>do</code> notation is the result of the computation</li><li>In this case, it needs to be a value of the type <code>IO Items</code></li><li>But <code>newItems</code> has the type <code>Items</code></li><li>So we use <code>pure</code> which has the type <code>a -&gt; IO a</code></li><li><code>pure</code> creates a subroutine that produces an <code>a</code> without doing any IO</li></ul><hr><h3>Back to main</h3><pre><code class="hs">main :: IO ()
+main = do
+  putStrLn &quot;TODO app&quot;
+  let initialList = []
+  interactWithUser initialList
+  putStrLn &quot;Thanks for using this app.&quot;</code></pre><p>We can now try and run this program.</p><hr><h3>Execution</h3><pre><code class="sh">$ runghc Todo.hs
+TODO app
+Enter an item to add to your todo list:
+Make a better app
+Item added.
+
+The List of items is:
+1 - Make a better app
+
+Thanks for using this app.</code></pre><hr><h3>Iteration and State</h3><ul><li>We want to let the user add more than one item to their todo list</li><li>We want to remember the changes to the list</li></ul><p>To do this in Haskell, we use recursion.</p><hr><h3>Iteration and State</h3><ul><li><p>Instead of returning the todo list, we feed it back to <code>interactWithUser</code></p></li></ul><pre><code class="hs">interactWithUser :: Items -&gt; IO ()
+interactWithUser items = do
+  putStrLn &quot;Enter an item to add to your todo list:&quot;
+  item &lt;- getLine
+  let newItems = addItem item items
+  putStrLn &quot;Item added.\n&quot;
+  putStrLn &quot;The List of items is:&quot;
+  putStrLn (displayItems newItems)
+  interactWithUser newItems</code></pre><hr><h3>Iteration and State</h3><pre><code class="hs">TODO app
+Enter an item to add to your todo list:
+Make
+Item added.
+
+The List of items is:
+1 - Make
+
+Enter an item to add to your todo list:
+This
+Item added.
+
+The List of items is:
+1 - Make
+2 - This
+
+Enter an item to add to your todo list:
+Stop
+Item added.
+
+The List of items is:
+1 - Make
+2 - This
+3 - Stop
+
+Enter an item to add to your todo list:
+^C</code></pre><hr><h3>Iteration and State</h3><ul><li>This program will run forever</li><li>We can stop it using Ctrl-C, but that's not very nice</li><li>Let's make it possible for the user to use different commands</li></ul><hr><h3>User Commands - Representation</h3><pre><code class="hs">data Command
+  = Quit
+  | DisplayItems
+  | AddItem String</code></pre><ul><li><p>We create a new ADT to model the possible user commands</p></li></ul><hr><h3>User Commands - Parsing</h3><ul><li>And parse a user command to our data type</li><li>This may fail</li></ul><pre><code class="hs">parseCommand :: String -&gt; Either String Command
+parseCommand line = case words line of
+  [&quot;quit&quot;] -&gt; Right Quit
+  [&quot;items&quot;] -&gt; Right DisplayItems
+  &quot;add&quot; : &quot;-&quot; : item -&gt; Right (AddItem (unwords item))
+  _ -&gt; Left &quot;Unknown command.&quot;</code></pre><hr><h3>User Commands - Change iteraction</h3><p>We change interactWithUser to accomodate for our new functionality</p><pre><code class="hs">interactWithUser :: Items -&gt; IO ()
+interactWithUser items = do
+  putStrLn &quot;Commands: quit, items, add - &lt;item to add&gt;&quot;
+  line &lt;- getLine
+  case parseCommand line of
+    Right DisplayItems -&gt; do
+      putStrLn &quot;The List of items is:&quot;
+      putStrLn (displayItems items)
+      interactWithUser items
+
+    Right (AddItem item) -&gt; do
+      let newItems = addItem item items
+      putStrLn &quot;Item added.&quot;
+      interactWithUser newItems
+
+    Right Quit -&gt; do
+      putStrLn &quot;Bye!&quot;
+      pure ()
+
+    Left errMsg -&gt; do
+      putStrLn (&quot;Error: &quot; ++ errMsg)
+      interactWithUser items</code></pre><hr><h3>TODO - interact</h3><pre><code class="sh">TODO app
+Commands: quit, items, add - &lt;item to add&gt;
+add - Add a remove item command
+Item added.
+Commands: quit, items, add - &lt;item to add&gt;
+add - Maybe also display the list of commands only once    
+Item added.
+Commands: quit, items, add - &lt;item to add&gt;
+items
+The List of items is:
+1 - Add a remove item command
+2 - Maybe also display the list of commands only once
+
+Commands: quit, items, add - &lt;item to add&gt;
+quit
+Bye!
+Thanks for using this app.</code></pre><hr><h3>Let's add a help command</h3><pre><code class="hs">data Command
+  ...
+  | Help
+
+parseCommand :: String -&gt; Either String Command
+parseCommand line = case words line of
+  ...
+  [&quot;help&quot;] -&gt; Right Help
+  _ -&gt; Left &quot;Unknown command.&quot;
+
+interactWithUser :: Items -&gt; IO ()
+interactWithUser items = do
+  line &lt;- getLine
+  case parseCommand line of
+    Right Help -&gt; do
+      putStrLn &quot;Commands: help, quit, items, add - &lt;item to add&gt;&quot;
+      interactWithUser items
+    ...</code></pre><ul><li><p>the pattern <code>_</code> serves as a &quot;catch all&quot; so we need to add the pattern for <code>[&quot;help&quot;]</code> before it.</p></li></ul><hr><h3>TODO - removeItem</h3><pre><code class="hs">-- Returns a new list of items or an error message if the index is out of bounds
+removeItem :: Int -&gt; Items -&gt; Either String Items
+removeItem reverseIndex allItems =
+    impl (length allItems - reverseIndex) allItems
+  where
+    impl index items =
+      case (index, items) of
+        (0, item : rest) -&gt;
+          Right rest
+        (n, []) -&gt;
+          Left &quot;Index out of bounds.&quot;
+        (n, item : rest) -&gt;
+          case impl (n - 1) rest of
+            Right newItems -&gt;
+              Right (item : newItems)
+            Left errMsg -&gt;
+              Left (&quot;Error: &quot; ++ errMsg)</code></pre><hr><h3>TODO - add commands for marking an Item as done</h3><pre><code class="hs">data Command
+  ...
+  | Done Int
+
+parseCommand :: String -&gt; Either String Command
+parseCommand line = case words line of
+  ...
+  [&quot;done&quot;, idxStr] -&gt;
+    if all (\c -&gt; elem c &quot;0123456789&quot;) idxStr
+      then Right (Done (read idxStr))
+      else Left &quot;Invalid index.&quot;
+  _ -&gt; Left &quot;Unknown command.&quot;
+
+interactWithUser :: Items -&gt; IO ()
+interactWithUser items = do
+  line &lt;- getLine
+  case parseCommand line of
+    Right Help -&gt; do
+      putStrLn &quot;Commands: help, quit, items, add - &lt;item to add&gt;, done &lt;item index&gt;&quot;
+      interactWithUser items
+    Right (Done index) -&gt; do
+      let result = removeItem index items
+      case result of
+        Left errMsg -&gt; do
+          putStrLn (&quot;Error: &quot; ++ errMsg)
+          interactWithUser items
+        Right newItems -&gt; do
+          putStrLn &quot;Item done.&quot;
+          interactWithUser newItems
+
+    ...</code></pre><hr><h2>TODO - Done</h2><pre><code class="sh">TODO app
+help
+Commands: help, quit, items, add - &lt;item to add&gt;, done &lt;item index&gt;
+add - Greet user
+Item added.
+add - Model data and user interaction
+Item added.
+add - Implement data modification
+Item added.
+add - Implement state and iteration using recursion
+Item added.
+add - Parse user input
+Item added.
+add - Interact with the user
+Item added.
+items
+The List of items is:
+1 - Greet user
+2 - Model data and user interaction
+3 - Implement data modification
+4 - Implement state and iteration using recursion
+5 - Parse user input
+6 - Interact with the user
+
+done 1
+Item done.
+items 
+The List of items is:
+1 - Model data and user interaction
+2 - Implement data modification
+3 - Implement state and iteration using recursion
+4 - Parse user input
+5 - Interact with the user
+
+done 1
+Item done.
+done 1
+Item done.
+done 1
+Item done.
+items
+The List of items is:
+1 - Parse user input
+2 - Interact with the user
+
+done 1
+Item done.
+done 1
+Item done.
+items
+The List of items is:
+
+quit
+Bye!
+Thanks for using this app.</code></pre><hr><h2>TODO - Done</h2><p>The final app's source code can be viewed <a href="https://github.com/soupi/rfc/blob/master/Todo.hs">here</a>.</p><hr><h2>This code is still a bit messy. Can we do better?</h2><h4>Yes!</h4><ul><li><p>Haskell provides us with all kinds of features to simplify the code and reduce code duplication!</p></li><li><p>But This is a story for another time.</p></li></ul><hr><h2>Curious? Want to learn more?</h2><ul><li><a href="https://haskell-lang.org/get-started">Get started with Haskell</a></li><li><a href="http://haskellbook.com">Haskell Programming From First Principles</a></li><li><a href="https://en.wikibooks.org/wiki/Haskell">Haskell wikibook</a></li></ul><hr></div><script src="js/jquery-1.11.0.min.js"></script><script src="highlight/highlight.pack.js"></script><script src="js/present.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
