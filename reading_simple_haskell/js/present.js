@@ -30,10 +30,11 @@ $(function()
     $('.currslide').wrapAll("<div class='slide' />");
     $('.currslide').removeClass('currslide');
   }
-  
-  var btn1 = $('<input type="button" value="Prev" onclick="prev()" />');
-  var btn2 = $('<input type="button" value="Next" onclick="next()" />');
-  var index = $('<label id="index"> ' + currentIndex + ' / ' + count + '</label>');
+
+
+  var btn1 = $('<input type="button" title="Or use left-arrow"  value="Prev" onclick="prev()" class="nav-button" />');
+  var btn2 = $('<input type="button" title="Or use right-arrow" value="Next" onclick="next()" class="nav-button" />'); 
+  var index = $('<label id="index" class="nav-button"> ' + currentIndex + ' / ' + count + '</label>');
 
   index.prependTo($("body"));
   btn2.prependTo($("body"));
