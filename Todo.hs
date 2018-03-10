@@ -8,7 +8,7 @@ main = do
 
 
 type Item = String
-type Items = [String]
+type Items = [Item]
 
 
 data Command

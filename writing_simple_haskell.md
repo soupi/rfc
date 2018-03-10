@@ -260,7 +260,7 @@ How should we
 
 ```hs
 type Item = String
-type Items = [String]
+type Items = [Item]
 ```
 
 ---
@@ -271,7 +271,7 @@ type Items = [String]
 
 ```hs
 type Item = String
-type Items = [String]
+type Items = [Item]
 ```
 
 * How can we refer to an item?
@@ -284,7 +284,7 @@ type Items = [String]
 
 ```hs
 type Item = String
-type Items = [String]
+type Items = [Item]
 ```
 
 * How can we refer to an item?
@@ -299,7 +299,7 @@ By it's index in the list
 
 ```hs
 type Item = String
-type Items = [String]
+type Items = [Item]
 ```
 
 * How can we refer to an item?
