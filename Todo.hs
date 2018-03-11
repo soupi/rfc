@@ -94,5 +94,5 @@ removeItem reverseIndex allItems =
             Right newItems ->
               Right (item : newItems)
             Left errMsg ->
-              Left ("Error: " ++ errMsg)
+              Left errMsg
 
