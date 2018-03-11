@@ -231,7 +231,7 @@ removeItem reverseIndex allItems =
             Right newItems -&gt;
               Right (item : newItems)
             Left errMsg -&gt;
-              Left (&quot;Error: &quot; ++ errMsg)</code></pre><hr><h3>TODO - add commands for marking an Item as done</h3><pre><code class="hs">data Command
+              Left errMsg</code></pre><hr><h3>TODO - add commands for marking an Item as done</h3><pre><code class="hs">data Command
   ...
   | Done Int
 
