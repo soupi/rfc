@@ -25,7 +25,7 @@
 We want to be able to:
 
 - Add a new todo item
-- Diaplay all items
+- Display all items
 - Mark an item as done
 
 But first, let's greet the user.
@@ -244,7 +244,7 @@ putStrLn ("Nice to meet you, " ++ name ++ "!")
 We want to be able to:
 
 - Add a new todo item
-- Diaplay all items
+- Display all items
 - Mark an item as done
 
 How should we
@@ -289,7 +289,7 @@ type Items = [Item]
 
 * How can we refer to an item?
 
-By it's index in the list
+By its index in the list
 
 ---
 
@@ -304,7 +304,7 @@ type Items = [Item]
 
 * How can we refer to an item?
 
-By it's index in the list
+By its index in the list
 
 * Will will the operations we want to do look like?
 
@@ -313,8 +313,8 @@ By it's index in the list
 ### TODO - Items as a linked list
 
 - Add a new todo item -> Add an item to the start of the list
-- Diaplay all items -> reverse and print with indices
-- Mark an item as done -> Remove an item by it's reverse-index
+- Display all items -> Reverse and print with indices
+- Mark an item as done -> Remove an item by its reverse-index
 
 * How can we represent these actions?
 
@@ -363,7 +363,7 @@ displayItems items =
 
 * Use [hoogle](https://hoogle.haskell.org) to search for `zipWith`, `reverse`, and `unlines` to find more about them
 * Haskell only evaluates values when it needs to (for example, when they need to be evaluated in order to print something to the user).
-* It let's us write functions that work on infinite lists such as `[1..]` and only evaluate what it needs to evaluate.
+* It lets us write functions that work on infinite lists such as `[1..]` and only evaluate what it needs to evaluate.
 * You can read more about evaluation in Haskell in [this guide](http://blog.ezyang.com/2011/04/the-haskell-heap/)
 
 ---
@@ -613,7 +613,7 @@ interactWithUser items = do
     ...
 ```
 
-* the pattern `_` serves as a "catch all" so we need to add the pattern for `["help"]` before it.
+* The pattern `_` serves as a "catch all" so we need to add the pattern for `["help"]` before it.
 
 
 ---
@@ -754,7 +754,7 @@ The final app's source code can be viewed [here](https://github.com/soupi/rfc/bl
 
 * Haskell provides us with all kinds of features to simplify the code and reduce code duplication!
 
-* But This is a story for another time.
+* But this is a story for another time.
 
 ---
 
