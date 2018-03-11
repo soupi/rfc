@@ -80,19 +80,9 @@ displayItems items =
     unlines displayedItemsList
 
 removeItem :: Int -> Items -> Either String Items
-removeItem reverseIndex allItems =
-    impl (length allItems - reverseIndex) allItems
+removeItem idxToRemove allItems
+  | (idxToRemove < 1) || (idxToRemove > (length allItems)) = Left "Index out of bounds"
+  | otherwise = Right $ foldr ff [] (zip [1..] allItems)
   where
-    impl index items =
-      case (index, items) of
-        (0, item : rest) ->
-          Right rest
-        (n, []) ->
-          Left "Index out of bounds."
-        (n, item : rest) ->
-          case impl (n - 1) rest of
-            Right newItems ->
-              Right (item : newItems)
-            Left errMsg ->
-              Left errMsg
-
+    ff :: (Int, Item) -> Items -> Items
+    ff (idx, item) acc = if idx /= idxToRemove then (item : acc) else acc
