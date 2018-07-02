@@ -528,6 +528,9 @@ main = do
 
 - [Haskell Programming: From First Principles](http://haskellbook.com)
 - [Install a Haskell compiler and environment](https://haskell-lang.org/get-started)
+- [Minimal Haskell IDE based on Emacs](https://github.com/soupi/minimal-haskell-emacs/)
+- [Writing Simple Haskell](https://soupi.github.io/rfc/writing_simple_haskell)
+
 
 ---
 
