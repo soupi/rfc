@@ -306,7 +306,7 @@ type Items = [Item]
 
 By its index in the list
 
-* Will will the operations we want to do look like?
+* What will the operations we want to do look like?
 
 ---
 
@@ -763,6 +763,7 @@ The final app's source code can be viewed [here](https://github.com/soupi/rfc/bl
 * [Get started with Haskell](https://haskell-lang.org/get-started)
 * [Haskell Programming From First Principles](http://haskellbook.com)
 * [Haskell wikibook](https://en.wikibooks.org/wiki/Haskell)
+- [Minimal Haskell IDE based on Emacs](https://github.com/soupi/minimal-haskell-emacs/)
 
 ---
 
