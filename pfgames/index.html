@@ -1,0 +1,622 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Purely Functional Games / _gilmi</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/moon.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+<section data-markdown>
+  <textarea data-template>
+    ## Purely Functional Games
+
+    How I build a game in Haskell - pure functional style
+  </textarea>
+</section>
+
+<section data-markdown><textarea data-template>
+
+### What this talk is about
+I'd like to share with you my experience of building a game in Haskell.
+
+I'll describe my experience, share some key ideas,
+and try to dispel some myths about Haskell.
+
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+## Demo
+
+<video width="400" height="500" controls>
+  <source src="demo.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video> 
+
+</textarea></section>
+
+<section>
+
+  <section data-markdown><textarea data-template>
+  ## What is Haskell?
+  
+  - General purpose programming language
+  - Purely functional
+  - Statically typed
+  - Lazy
+  - [Unique](https://www.snoyman.com/blog/2017/12/what-makes-haskell-unique)
+  
+  </textarea></section>
+  
+  <section data-markdown><textarea data-template>
+  ## Hello world in Haskell
+  
+  ```hs
+  main = putStrLn "Hello, world!"
+  ```
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+## Pure functional programming
+
+- Separation between **effectful** code (mutation, IO, etc) and **uneffectful** code
+    - The **type** of expressions that might use effects to produce a value is different from the type of expressions that don't
+
+- Referential transparency
+    - `=` (equals sign) means both sides are **interchangeable**
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+# Benefits?
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+## Equational and local reasoning
+
+- Understand code in **isolation** without the context in which it is used.
+- Know when some code has no effects and is not effected by other code.
+- The output is determined only by the input and algorithm.
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+
+## Code reuse
+
+- Apply a function many times and in different contexts without worrying it might change something unintended.
+- Call a function from multiple locations - no side effects!
+- Refactor safely
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+#### These benefits are useful when making games as well
+
+And we can have them by writing a game in Haskell using pure functional style.
+
+  </textarea></section>
+
+</section>
+
+<section>
+
+  <section data-markdown><textarea data-template>
+  ### Available libraries / Engines
+  
+  - gloss - limited vector graphics
+  - Hickory / Helm - game engines of various quality
+  - sdl2 - idiomatic bindings for SDL2 - a cross-platform development library
+  - gl / gpipe - opengl bindings / opengl abstraction
+  - apecs / ecstasy - ECS
+  
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  ### Custom Engine
+
+  I chose to build a custom engine on top of the sdl2 bindings
+  as they are quite thorough and stable and I didn't want to get stuck.
+  
+  But this means that I need to decide on the architecture myself.
+  </textarea></section>
+
+</section>
+
+<section>
+
+
+  <section data-markdown><textarea data-template>
+
+  ### Game architecture?
+  
+  Many engines (such as Flash and Love2d) use **events** and **callbacks**.
+  
+  </textarea></section>
+  
+  <section data-markdown><textarea data-template>
+  ### Type of Events
+  
+  - Ticks
+  - Update
+  - Render
+  - Keyboard/Mouse Input
+  - Collisions
+  - Animation
+  - Etc.
+  
+  </textarea></section>
+  
+  <section data-markdown><textarea data-template>
+  
+  ### Events and Event Handlers
+  
+  This design makes the program inherently **effectful**.
+  
+  **A function that returns `void` is all about effects!**
+  </textarea></section>
+  
+  <section data-markdown><textarea data-template>
+  
+  ### A General Idea for Pure Functional Architecture
+  
+  - Effectful outer layer, Uneffectful core
+  - Push effects to the outer layer
+  
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+### Effects - what is needed in a video game?
+
+- Graphics - render every frame
+- Sound - async usually (fire and forget)
+- User input - sampled every frame, passed to the rest of the game
+- Assets loading - should be done before a section/level begins
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+### Effects - How to push to the outer layer
+
+The **Game loop** handles effects
+
+- Gets the **current state** of the game
+- Samples **events**, user input and results of requests
+- **Update**s the state and gets the new state and requests (This is uneffectful)
+- Run **requests** asyncly
+- **Render**s state on screen
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+  
+### Game representation
+
+Let's focus on a few components:
+
+- Scenes
+- Game entities
+- Scripts
+
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+![Design](design.png)
+
+  </textarea></section>
+</section>
+
+<section>
+  <section data-markdown><textarea data-template>
+
+### Our Toolbox
+
+- ADTs - Represent data, commands, EDSLs and state machines
+- Lenses - data access and manipulation
+- Functions and Closures
+- Pass state in, return updated state out
+
+
+  </textarea></section>
+
+</section>
+
+<section>
+
+  <section data-markdown><textarea data-template>
+
+  ## Scenes
+
+- Bullet hell game level
+- Menus
+- Visual novel gameplay
+- End credits
+- Asset loader
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+  ## A Scene
+
+  - Holds the relevant data for a scene
+  - Describes how to update it
+  - Describes how to render it
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+  ## A pattern?
+
+```haskell
+data SceneF a
+  = SceneF
+  { state :: a
+  , update :: Input -> a -> Result ([Request], (Command, a))
+  , render :: Renderer -> a -> IO ()
+  }
+```
+
+  - But different scenes require different data
+  - So we can't, for example, create a stack of `Scene`s of different data
+
+
+  </textarea></section>
+
+  <!--
+  <section data-markdown><textarea data-template>
+
+  ### A Word on Parametric Polymorphism
+  
+```hs
+map :: forall a b. (a -> b) -> List a -> List b
+```
+
+  - The caller decides which type `a` is and which type `b` is when calling the function
+  - The callee do not know which concrete types `a` and `b` are
+
+  </textarea></section>
+
+  -->
+<section data-markdown><textarea data-template>
+
+### Existential Types
+
+```hs
+{-# LANGUAGE ExistentialQuantification #-}
+
+-- Definition
+data Scene = forall s. Scene (SceneF s)
+
+-- Creation
+mkScene :: SceneF s -> Scene
+mkScene scene = Scene scene
+
+-- Usage: render the top scene on the stack
+renderer :: Renderer -> Stack Scene -> IO ()
+renderer sdlRenderer scenes =
+    case head scenes of
+        Scene SceneF{render, state} ->
+            render sdlRenderer state
+```
+
+- `Scene` does not know (nor care) about `s`
+- `SceneF` encodes the fact the `render`'s `s` and state's `s` are the same
+
+  </textarea></section>
+
+
+</section>
+<section>
+
+  <section data-markdown><textarea data-template>
+
+  ## Game Entities
+
+  - Player character
+  - Bullet
+  - Background screen
+  - Enemies
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+
+### How are they represented in the game?
+
+- Bags of data (position component, size, texture, health, attack pattern)
+- Have an initialization, update function, and render function
+- Accessing and updating state is easy through lenses
+- map, fold, traverse works well
+
+  </textarea></section>
+
+  <!--
+  <section data-markdown><textarea data-template>
+
+### Aside
+      
+- It's better to duplicate until you find a good abstraction and only then separate/reduce
+- Game entities do different stuff, and sometimes abstracting over them is more complicated than it's worth
+
+Examples for refactors I did:
+
+- Movement component
+- Attack patterns
+- Generic enemies
+
+
+  </textarea></section>
+-->
+
+  <section data-markdown><textarea data-template>
+  
+  ## Lenses
+
+  First class (composable) getters and setters.
+
+  Can be used to:
+
+  - get component data
+  - update nested records
+  - abstract operations over data components polymorphically
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+### Get, Set, Update
+
+```hs
+view (hitbox . size . x) character
+```
+
+```hs
+set direction newDir character
+```
+
+```hs
+over position (flip addPoint move) character
+```
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+### Row Polymorphism
+
+We can talk about types that has the same components polymorphicaly:
+
+```hs
+isTouchingCircleCircle
+  :: (HasSize a Size, HasPos a IPoint)
+  => (HasSize b Size, HasPos b IPoint)
+  => a -> b -> Maybe (a, b)
+```
+
+  </textarea></section>
+  <section data-markdown><textarea data-template>
+
+### First class getters and setters
+
+You can pass a lens to a function:
+
+```hs
+circleDistance circle rect = Point (dist x) (dist y)
+  where
+    dist axis =
+      abs
+        ( circle ^. pos . axis
+          - (rect ^. hitbox . pos . axis)
+          - (rect ^. hitbox . size . axis) `div` 2
+        )
+```
+
+  </textarea></section>
+
+</section>
+<section>
+
+  <section data-markdown><textarea data-template>
+
+
+### Scripts
+
+- An EDSL for changing the game
+- A list of commands is enough for something linear
+- More approaches are available for something more complex (such as Free monads)
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+### Scripts EDSL
+
+```hs
+data Command
+  = Wait Actions Int
+  | Spawn [Enemy]
+  | LoadScene Scene
+  | LoadTextBox Actions TB.TextBox
+  | PlayMusic BS.ByteString
+  | StopMusic
+  | Shake
+  | ...
+```
+
+  </textarea></section>
+
+</section>
+
+<section>
+
+  <section data-markdown><textarea data-template>
+  
+## Dispelling a few myths about Haskell
+
+  </textarea></section>
+
+<section data-markdown><textarea data-template>
+
+### In Haskell you have to design your whole program and only then implement it
+
+</textarea></section>
+<section data-markdown><textarea data-template>
+
+- Incrementally building a program is available in any language
+- Expressive static typing makes it easier to change existing code
+- Write huge functions that does a lot of stuff and clean them up once you understand what you want/need
+- This is a strength of Haskell's idioms and type-system!
+
+</textarea></section>
+<section data-markdown><textarea data-template>
+
+<video width="800" height="450" controls>
+  <source src="progress.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video> 
+
+</textarea></section>
+
+<section data-markdown><textarea data-template>
+
+### Games are inherently stateful and that's not a good fit for Haskell
+
+  </textarea></section>
+<section data-markdown><textarea data-template>
+
+- Haskell does not forbid you from using state, it just makes it explicit
+- Explicit state means more control
+- For example, you can easily decide if you want to update something or not
+- No need to worry about partial data update (frames being updated using partially updated data, order of update does not matter)
+- New data each frame translates well to games
+- Lenses works really well with nested record updates
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+### Haskell is too slow for games
+
+Can you write games in GC languages? Does Haskell have unacceptable pause times?
+
+  </textarea></section>
+  <section data-markdown><textarea data-template>
+
+- There are many games written with GCed languages (Lua / ActionScript / Java / C# / Haxe)
+- For a simple game, Haskell is plenty fast enough
+- The garbage collector is very good at allocating and deleting from nursery
+
+  </textarea></section>
+  <section data-markdown><textarea data-template>
+
+```
+➜ haskell-play git:(master) stack exec app -- +RTS -sstderr
+...
+           Tot time   (elapsed)    Avg pause   Max pause
+Gen  0      0.082s      0.087s      0.0001s     0.0007s
+Gen  1      0.001s      0.001s      0.0002s     0.0003s
+
+INIT   time   0.000s   (  0.002s elapsed)
+MUT    time   7.862s   ( 92.500s elapsed)
+GC     time   0.083s   (  0.087s elapsed)
+EXIT   time   0.000s   (  0.005s elapsed)
+Total  time   7.945s   ( 92.594s elapsed)
+
+%GC time 1.0% (0.1% elapsed)
+Alloc rate 81,352,956 bytes per MUT second
+Productivity 99.0% of total user, 99.9% of total elapsed
+```
+
+
+  </textarea></section>
+
+</section>
+<section>
+  <section data-markdown><textarea data-template>
+
+### Conclusion
+
+You can also write a game in Haskell in purely functional style.
+
+- Push effects to an outer layer and keep the core effects-free
+- Keep it simple and don't abstract too early
+- Iterate and refactor
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+### Questions?
+
+  </textarea></section>
+
+  <section data-markdown><textarea data-template>
+
+### Thank you!
+
+If you want to play the game, you can find it at:
+
+- [gilmi.me/nyx](https://gilmi.me/nyx)
+
+  </textarea></section>
+
+ 
+</section>
+
+
+
+
+      </div>
+    </div>
+
+    <script src="plugin/markdown/marked.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+
+  </body>
+</html>
