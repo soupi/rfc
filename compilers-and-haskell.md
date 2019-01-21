@@ -416,34 +416,6 @@ These are the basics of using Haskell and compilers, but there are many more ide
 
 ---
 
-#### Recursion using Fix-points
-
-One interesting way that let's us abstract away the recursion part of our AST is using fix points.
-We'll make our ~Expr~ take one type argument and use it where we would use the type we defined.
-
-```hs
-data ExprF a
-  = Lit Int
-  | Var String
-  | Neg a
-  | Add a a
-  | Mul a a
-  | Sub a a
-  | Div a a
-  deriving (Show, Functor, Foldable, Traversable)
-
-newtype Fix f = Fix (f (Fix f))
-
-type Expr = Fix ExprF
-
-unFix :: Fix f -> f (Fix f)
-
-cata :: Functor f => (f a -> a) -> Fix f -> a
-cata f = f . fmap (cata f) . unFix
-```
-
----
-
 ## Things That (IMO) Will Make Haskell Even Better For Compilers
 
 - Easier way to extend or constrict ADTs than "Trees that grow" (This ADT is the same as that ADT but without the `Sub` constructor)
