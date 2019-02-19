@@ -182,12 +182,13 @@ reservedWords = ["var"]
 identifier :: Prs.Parser T.Text
 identifier = lexeme (p >>= check . T.pack)
   where
-    p       = (:) <$> idCharStart <*> Prs.many idCharRest
-    check x = if x `elem` reservedWords
-                then fail $ "keyword " ++ show x ++ " cannot be an identifier"
-                else pure x
+    p = (:) <$> idCharStart <*> Prs.many idCharRest
     idCharStart = Prs.letterChar
     idCharRest  = Prs.alphaNumChar <|> Prs.oneOf ("!@#$%^&*-=/_" :: String)
+    check x
+      | x `elem` reservedWords =
+        fail $ "keyword " ++ show x ++ " cannot be an identifier"
+      | otherwise pure x
 
 parens, braces, angles, brackets :: Prs.Parser a -> Prs.Parser a
 parens    = Prs.between (symbol "(") (symbol ")")
@@ -215,6 +216,12 @@ We can use a parser combinators library in Haskell that have a fairly declarativ
 program :: Prs.Parser Program
 program = Prs.many statement <* Prs.eof
 
+statement :: Prs.Parser Statement
+statement =
+      (decl <* semicolon)
+  <|> ((Expr <$> expr) <* semicolon)
+  <|> ((Block <$> braces (Prs.many statement)) <* semicolon)
+
 decl :: Prs.Parser Statement
 decl = rword "def" *>
   ( Decl
@@ -222,18 +229,11 @@ decl = rword "def" *>
     <*> (equals *> expr)
   )
 
-statement :: Prs.Parser Statement
-statement =
-      (decl <* semicolon)
-  <|> ((Expr <$> expr) <* semicolon)
-  <|> ((Block <$> braces statements) <* semicolon)
-
-
 expr :: Prs.Parser Expr
 expr =
       (Value <$> value)
-  <|> (Var <$> identifier)
   <|> Prs.try (App <$> identifier <*> parens (Prs.sepBy expr comma))
+  <|> (Var <$> identifier)
 
 value :: Prs.Parser Value
 value =
@@ -419,7 +419,7 @@ These are the basics of using Haskell and compilers, but there are many more ide
 ## Things That (IMO) Will Make Haskell Even Better For Compilers
 
 - Easier way to extend or constrict ADTs than "Trees that grow" (This ADT is the same as that ADT but without the `Sub` constructor)
-- Extensible records - add/remove annotations, refer to part of the annotation
+- Extensible records / row polymorphism - add/remove annotations, refer to part of the annotation
 - Polymorphic variants - different operations on ASTs can throw different kind of errors which are all easily composable
 
 ---
