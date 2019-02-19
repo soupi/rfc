@@ -1,7 +1,7 @@
 
 # Compilers and
 
-[![Haskell](https://www.haskell.org/static/img/haskell-logo.svg)](https://haskell-lang.org)
+[![Haskell](https://www.haskell.org/static/img/haskell-logo.svg)](https://haskell.org)
 
 ---
 

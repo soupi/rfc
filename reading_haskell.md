@@ -2,7 +2,7 @@
 
 # Reading Simple
 
-[![Haskell](https://www.haskell.org/static/img/haskell-logo.svg)](https://haskell-lang.org)
+[![Haskell](https://www.haskell.org/static/img/haskell-logo.svg)](https://haskell.org)
 
 ---
 
@@ -526,10 +526,10 @@ main = do
 
 ## Want to learn more?
 
-- [Haskell Programming: From First Principles](http://haskellbook.com)
-- [Install a Haskell compiler and environment](https://haskell-lang.org/get-started)
-- [Minimal Haskell IDE based on Emacs](https://github.com/soupi/minimal-haskell-emacs/)
 - [Writing Simple Haskell](https://soupi.github.io/rfc/writing_simple_haskell)
+- [Install a Haskell compiler and environment](https://haskell.fpcomplete.com/get-started)
+- [Minimal Haskell IDE based on Emacs](https://github.com/soupi/minimal-haskell-emacs/)
+- [Haskell Study Plan](https://github.com/soupi/haskell-study-plan)
 
 
 ---

@@ -2,7 +2,7 @@
 
 # Writing Simple
 
-[![Haskell](https://www.haskell.org/static/img/haskell-logo.svg)](https://haskell-lang.org)
+[![Haskell](https://www.haskell.org/static/img/haskell-logo.svg)](https://haskell.org)
 
 ---
 
@@ -16,7 +16,7 @@
 ### What we're going to do
 
 * We're going to build a cli todo app.
-* To get the most out of this, follow along using [ghc](https://haskell-lang.org/get-started) or [repl.it](https://repl.it/languages/haskell).
+* To get the most out of this, follow along using [a haskell toolchain](https://haskell.fpcomplete.com/get-started) or [repl.it](https://repl.it/languages/haskell).
 
 ---
 
@@ -760,10 +760,11 @@ The final app's source code can be viewed [here](https://github.com/soupi/rfc/bl
 
 ## Curious? Want to learn more?
 
-* [Get started with Haskell](https://haskell-lang.org/get-started)
-* [Haskell Programming From First Principles](http://haskellbook.com)
-* [Haskell wikibook](https://en.wikibooks.org/wiki/Haskell)
-* [Minimal Haskell IDE based on Emacs](https://github.com/soupi/minimal-haskell-emacs/)
+* [Install a Haskell compiler and environment](https://haskell.fpcomplete.com/get-started)
+* [Minimal Haskell IDE based on Emacs](https://github.com/soupi/minimal-haskell-emacs)
+* [Haskell Study Plan](https://github.com/soupi/haskell-study-plan)
+
+
 
 ---
 
