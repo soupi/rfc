@@ -7,6 +7,10 @@ These courses follow [An Incremental Approach to Compiler Construction / Ghuloum
 - https://www.cs.swarthmore.edu/~jpolitz/cs75/s16/index.html
 - [Essential of Compilation](https://jeapostrophe.github.io/courses/2017/spring/406/notes/book.pdf) - same idea but with Racket and as a book
 
+And another course covering the intermediate stage of compiling function languages called 'Compiling Functional Languages':
+
+- http://www.cse.chalmers.se/edu/year/2011/course/CompFun/
+
 ### Rewrites
 
 - [A-Normalization](http://matt.might.net/articles/a-normalization/)
