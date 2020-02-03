@@ -29,6 +29,7 @@ And another course covering the intermediate stage of compiling function languag
 
 - [CHICKEN data representation](http://www.more-magic.net/posts/internals-data-representation.html)
 - [Automated Memory Management (Overview)](https://papl.cs.brown.edu/2013/Automated_Memory_Management.html)
+- [Baby's First Garbage Collector](http://journal.stuffwithstuff.com/2013/12/08/babys-first-garbage-collector/)
 - [CHICKEN Scheme's garbage collector](http://www.more-magic.net/posts/internals-gc.html)
 - [CEK Machines](http://matt.might.net/articles/cek-machines/)
 - [CESK Machines](http://matt.might.net/articles/cesk-machines/)
