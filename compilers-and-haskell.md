@@ -430,7 +430,7 @@ These are the basics of using Haskell and compilers, but there are many more ide
 - [Write You a Scheme](https://wespiser.com/writings/wyas/00_overview.html)
 - [Implementing a JIT Compiled Language with Haskell and LLVM](http://www.stephendiehl.com/llvm/)
 - [Implementing Programming Languages](https://www.amazon.com/Implementing-Programming-Languages-Introduction-Interpreters/dp/1848900643)
-- [Fun Compilers](https://gist.github.com/soupi/73ab7dfd4d65fc68b62868d56b720bee)
+- [Fun Compilers](https://github.com/soupi/rfc/blob/master/fun-compilers.md)
 
 ---
 
