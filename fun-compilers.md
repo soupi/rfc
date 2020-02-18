@@ -11,6 +11,11 @@ And another course covering the intermediate stage of compiling function languag
 
 - http://www.cse.chalmers.se/edu/year/2011/course/CompFun/
 
+### Short Overviews
+
+- [Haskell and Compilers](https://github.com/soupi/rfc/blob/master/compilers-and-haskell.md)
+- [Compiling Lisp to JavaScript from Scratch in 350 LOC](https://gilmi.me/blog/post/2016/10/14/lisp-to-js)
+
 ### Rewrites
 
 - [A-Normalization](http://matt.might.net/articles/a-normalization/)
