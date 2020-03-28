@@ -38,4 +38,5 @@ And another course covering the intermediate stage of compiling function languag
 - [CHICKEN Scheme's garbage collector](http://www.more-magic.net/posts/internals-gc.html)
 - [CEK Machines](http://matt.might.net/articles/cek-machines/)
 - [CESK Machines](http://matt.might.net/articles/cesk-machines/)
+- [The ZINC Experiment](http://caml.inria.fr/pub/papers/xleroy-zinc.pdf)
 - [Compiler Design: Virtual Machine](http://www.springer.com/gp/book/9783642149085)
