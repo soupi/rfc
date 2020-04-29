@@ -428,7 +428,7 @@ These are the basics of using Haskell and compilers, but there are many more ide
 
 - [Compiling Lisp to JavaScript From Scratch in 350 LOC](https://gilmi.me/blog/post/2016/10/14/lisp-to-js)
 - [Write You a Scheme](https://wespiser.com/writings/wyas/00_overview.html)
-- [Implementing a JIT Compiled Language with Haskell and LLVM](http://www.stephendiehl.com/llvm/)
+- [Micro C - Write a compiler for a small subset of C to LLVM in Haskell](https://blog.josephmorag.com/posts/mcc0/)
 - [Implementing Programming Languages](https://www.amazon.com/Implementing-Programming-Languages-Introduction-Interpreters/dp/1848900643)
 - [Fun Compilers](https://github.com/soupi/rfc/blob/master/fun-compilers.md)
 
