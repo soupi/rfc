@@ -1,10 +1,10 @@
 Resources on Compilers for Functional Languages
 ================================================
 
-These courses follow [An Incremental Approach to Compiler Construction / Ghuloum](http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf) while building a compiler from a functional language to x86 assembly + a C wrapper
+These courses follow [An Incremental Approach to Compiler Construction / Ghuloum](http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf) while building a compiler from a functional language to x86 assembly + a C wrapper in OCaml.
 
 - http://www.ccs.neu.edu/course/cs4410/
-- https://www.cs.swarthmore.edu/~jpolitz/cs75/s16/index.html
+- https://ucsd-cse131-f19.github.io/ ([See the podcasts section](https://podcast.ucsd.edu/watch/fa19/cse131_a00))
 - [Essential of Compilation](https://jeapostrophe.github.io/courses/2017/spring/406/notes/book.pdf) - same idea but with Racket and as a book
 
 And another course covering the intermediate stage of compiling function languages called 'Compiling Functional Languages':
