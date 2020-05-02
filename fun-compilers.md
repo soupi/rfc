@@ -43,4 +43,5 @@ And another course covering the intermediate stage of compiling function languag
 - [CEK Machines](http://matt.might.net/articles/cek-machines/)
 - [CESK Machines](http://matt.might.net/articles/cesk-machines/)
 - [The ZINC Experiment](http://caml.inria.fr/pub/papers/xleroy-zinc.pdf)
+- [Implementing lazy functional languages on stock hardware: The Spineless Tagless G-Machine](https://www.microsoft.com/en-us/research/wp-content/uploads/1992/04/spineless-tagless-gmachine.pdf)
 - [Compiler Design: Virtual Machine](http://www.springer.com/gp/book/9783642149085)
