@@ -32,6 +32,7 @@ And another course covering the intermediate stage of compiling function languag
 ### Parsing
 
 - [Grammars - The Language of Languages](http://matt.might.net/articles/grammars-bnf-ebnf/)
+- [Type Classes - Parsing](https://typeclasses.com/parsing) (Haskell)
 - [Intro to Parsing with Parsec in Haskell](https://jakewheat.github.io/intro_to_parsing/)
 
 ### Runtime Systems
