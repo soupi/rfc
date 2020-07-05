@@ -25,6 +25,7 @@ And another course covering the intermediate stage of compiling function languag
 
 - [Simon Peyton Jones - how GHC type inference engine actually works](https://www.youtube.com/watch?v=x3evzO8O9e8)
 - [Type Inference (PAPL)](https://papl.cs.brown.edu/2020/Type_Inference.html)
+- [The Essence of ML Type Inference](http://gallium.inria.fr/~fpottier/publis/emlti-final.pdf)
 - [Correcting A Widespread Error in Unification Algorithms](http://norvig.com/unify-bug.pdf)
 - [Generalizing Hindley-Milner Type Inference Algorithms](http://soft.vub.ac.be/~cfscholl/Capita-Selecta-2015/papers/2002%20Heeren.pdf)
 - [Typing Haskell in Haskell](https://gist.github.com/chrisdone/0075a16b32bfd4f62b7b)
