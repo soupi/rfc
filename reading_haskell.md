@@ -510,7 +510,7 @@ main = do
   putStrLn ("Nice to meet you, " ++ result)
   putStrLn "Here is the result of 1+1: "
   let calculation = factorial 100 -- note that when using do notation we don't need to use `in`
-  putStrLn (show (factorial 100))
+  putStrLn (show calculation)
   putStrLn "Bye!"
 
 ```
