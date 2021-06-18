@@ -29,6 +29,7 @@ And another course covering the intermediate stage of compiling function languag
 - [Correcting A Widespread Error in Unification Algorithms](http://norvig.com/unify-bug.pdf)
 - [Generalizing Hindley-Milner Type Inference Algorithms](http://soft.vub.ac.be/~cfscholl/Capita-Selecta-2015/papers/2002%20Heeren.pdf)
 - [Typing Haskell in Haskell](https://gist.github.com/chrisdone/0075a16b32bfd4f62b7b)
+- [Giml's type inference engine](https://gilmi.me/blog/post/2021/04/06/giml-type-inference)
 
 ### Parsing
 
