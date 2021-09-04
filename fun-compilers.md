@@ -5,7 +5,7 @@ These courses follow [An Incremental Approach to Compiler Construction / Ghuloum
 
 - http://www.ccs.neu.edu/course/cs4410/
 - https://ucsd-cse131-f19.github.io/ ([See the podcasts section](https://podcast.ucsd.edu/watch/fa19/cse131_a00))
-- [Essential of Compilation](https://jeapostrophe.github.io/courses/2017/spring/406/notes/book.pdf) - same idea but with Racket and as a book
+- [Essential of Compilation](https://jeapostrophe.github.io/courses/2021/spring/406/notes/book.pdf) - same idea but with Racket and as a book
 
 And another course covering the intermediate stage of compiling function languages called 'Compiling Functional Languages':
 
