@@ -527,7 +527,7 @@ main = do
 ## Want to learn more?
 
 - [Writing Simple Haskell](https://soupi.github.io/rfc/writing_simple_haskell)
-- [Install a Haskell compiler and environment](https://haskell.fpcomplete.com/get-started)
+- [Install a Haskell compiler and environment](https://haskell.org/downloads)
 - [Minimal Haskell IDE based on Emacs](https://github.com/soupi/minimal-haskell-emacs/)
 - [Haskell Study Plan](https://github.com/soupi/haskell-study-plan)
 

@@ -16,7 +16,7 @@
 ### What we're going to do
 
 * We're going to build a cli todo app.
-* To get the most out of this, follow along using [a haskell toolchain](https://haskell.fpcomplete.com/get-started) or [repl.it](https://repl.it/languages/haskell).
+* To get the most out of this, follow along using [a haskell toolchain](https://haskell.org/downloads) or [repl.it](https://repl.it/languages/haskell).
 
 ---
 
@@ -760,7 +760,7 @@ The final app's source code can be viewed [here](https://github.com/soupi/rfc/bl
 
 ## Curious? Want to learn more?
 
-* [Install a Haskell compiler and environment](https://haskell.fpcomplete.com/get-started)
+* [Install a Haskell compiler and environment](https://haskell.org/downloads)
 * [Minimal Haskell IDE based on Emacs](https://github.com/soupi/minimal-haskell-emacs)
 * [Haskell Study Plan](https://github.com/soupi/haskell-study-plan)
 
