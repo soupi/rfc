@@ -11,6 +11,10 @@ And another course covering the intermediate stage of compiling function languag
 
 - http://www.cse.chalmers.se/edu/year/2011/course/CompFun/
 
+### Tutorials in Haskell
+
+- [Micro C](https://blog.josephmorag.com/posts/mcc0/)
+
 ### Short Overviews
 
 - [Haskell and Compilers](https://github.com/soupi/rfc/blob/master/compilers-and-haskell.md)
