@@ -63,6 +63,9 @@ $(function()
     }
     e.preventDefault(); // prevent the default action (scroll / move caret)
   });
+
+  // mouse wheel down and up => next() and prev()
+  addEventListener("wheel", (event) => {(event.deltaY > 0)? next() : prev()})
 });
 
 function prev()
